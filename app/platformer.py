@@ -34,10 +34,18 @@ BLUE = (0, 0, 255)
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
-
-class Player(pygame.sprite.Sprite):
+class Entity(pygame.sprite.Sprite):
 	"""
-	This class represents the bar at the bottom that the player controls.
+	This class represents a movable object in the game.
+	"""
+	def __init__(self):
+		super().__init__()
+
+
+
+class Player(Entity):
+	"""
+	This class represents the player that can be controlled.
 	"""
 
 	# -- Methods
@@ -155,6 +163,18 @@ class Platform(pygame.sprite.Sprite):
 
 		self.rect = self.image.get_rect()
 
+class PlatformFromGraphic(pygame.sprite.Sprite):
+	""" Platform based off of an image """
+	def __init__(self, source):
+		""" Platform constructor. Takes a source of an image, and inflates it
+			into a pygame image.
+			"""
+		super().__init__()
+
+		self.image = pygame.image.load(source).convert_alpha()
+		self.rect = self.image.get_rect()
+
+
 
 class Level():
 	""" This is a generic super-class used to define a level.
@@ -214,39 +234,19 @@ class Level_01(Level):
 
 		self.level_limit = -1000
 
+		block = PlatformFromGraphic("res/map.sprite.png")
+		block.rect.x = 0
+		block.rect.y = 0
+		block.player = self.player
+		self.platform_list.add(block)
+
+		return None
+
 		# Array with width, height, x, and y of platform
 		level = [[210, 70, 500, 500],
 				 [210, 70, 800, 400],
 				 [210, 70, 1000, 500],
 				 [210, 70, 1120, 280],
-				 ]
-
-		# Go through the array above and add platforms
-		for platform in level:
-			block = Platform(platform[0], platform[1])
-			block.rect.x = platform[2]
-			block.rect.y = platform[3]
-			block.player = self.player
-			self.platform_list.add(block)
-
-
-# Create platforms for the level
-class Level_02(Level):
-	""" Definition for level 2. """
-
-	def __init__(self, player):
-		""" Create level 1. """
-
-		# Call the parent constructor
-		Level.__init__(self, player)
-
-		self.level_limit = -1000
-
-		# Array with type of platform, and x, y location of the platform.
-		level = [[210, 30, 450, 570],
-				 [210, 30, 850, 420],
-				 [210, 30, 1000, 520],
-				 [210, 30, 1120, 280],
 				 ]
 
 		# Go through the array above and add platforms
@@ -274,7 +274,6 @@ def main():
 	# Create all the levels
 	level_list = []
 	level_list.append(Level_01(player))
-	level_list.append(Level_02(player))
 
 	# Set the current level
 	current_level_no = 0
@@ -283,7 +282,7 @@ def main():
 	active_sprite_list = pygame.sprite.Group()
 	player.level = current_level
 
-	player.rect.x = 340
+	player.rect.x = 200
 	player.rect.y = SCREEN_HEIGHT - player.rect.height
 	active_sprite_list.add(player)
 
@@ -293,6 +292,12 @@ def main():
 	# Used to manage how fast the screen updates
 	clock = pygame.time.Clock()
 
+	# Controls (misschien met een GUI?)
+	# Volgens marc kan dat wel als we tijd over hebben, voor nu eerst de spellen afmaken.
+	controls_left = [pygame.K_LEFT, pygame.K_a]
+	controls_right = [pygame.K_RIGHT, pygame.K_d]
+	controls_up = [pygame.K_UP, pygame.K_w, pygame.K_SPACE]
+
 	# -------- Main Program Loop -----------
 	while not done:
 		for event in pygame.event.get():
@@ -300,17 +305,17 @@ def main():
 				done = True
 
 			if event.type == pygame.KEYDOWN:
-				if event.key == pygame.K_LEFT:
+				if event.key in controls_left:
 					player.go_left()
-				if event.key == pygame.K_RIGHT:
+				if event.key in controls_right:
 					player.go_right()
-				if event.key == pygame.K_UP:
+				if event.key in controls_up:
 					player.jump()
 
 			if event.type == pygame.KEYUP:
-				if event.key == pygame.K_LEFT and player.change_x < 0:
+				if event.key in controls_left and player.change_x < 0:
 					player.stop()
-				if event.key == pygame.K_RIGHT and player.change_x > 0:
+				if event.key in controls_right and player.change_x > 0:
 					player.stop()
 
 		# Update the player.
