@@ -41,6 +41,10 @@ class Entity(pygame.sprite.Sprite):
 	def __init__(self):
 		super().__init__()
 
+	@staticmethod
+	def collide(e1, e2):
+		if ()
+
 
 
 class Player(Entity):
@@ -163,6 +167,7 @@ class Platform(pygame.sprite.Sprite):
 
 		self.rect = self.image.get_rect()
 
+# DIT IS BS.  NIET GEBRUIKEN LOL
 class PlatformFromGraphic(pygame.sprite.Sprite):
 	""" Platform based off of an image """
 	def __init__(self, source):
@@ -173,7 +178,7 @@ class PlatformFromGraphic(pygame.sprite.Sprite):
 
 		self.image = pygame.image.load(source).convert_alpha()
 		self.rect = self.image.get_rect()
-
+# </BS>
 
 
 class Level():
@@ -234,20 +239,12 @@ class Level_01(Level):
 
 		self.level_limit = -1000
 
-		block = PlatformFromGraphic("res/map.sprite.png")
-		block.rect.x = 0
-		block.rect.y = 0
-		block.player = self.player
-		self.platform_list.add(block)
-
-		return None
-
 		# Array with width, height, x, and y of platform
 		level = [[210, 70, 500, 500],
 				 [210, 70, 800, 400],
 				 [210, 70, 1000, 500],
 				 [210, 70, 1120, 280],
-				 ]
+			]
 
 		# Go through the array above and add platforms
 		for platform in level:
@@ -256,6 +253,9 @@ class Level_01(Level):
 			block.rect.y = platform[3]
 			block.player = self.player
 			self.platform_list.add(block)
+
+class LevelFromImage(Level):
+
 
 
 def main():
