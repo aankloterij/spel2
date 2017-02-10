@@ -30,6 +30,8 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLUE = (0, 0, 255)
 
+WATER = (0, 182, 233)
+
 # Screen dimensions
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
@@ -40,11 +42,6 @@ class Entity(pygame.sprite.Sprite):
 	"""
 	def __init__(self):
 		super().__init__()
-
-	@staticmethod
-	def collide(e1, e2):
-		if ()
-
 
 
 class Player(Entity):
@@ -116,14 +113,17 @@ class Player(Entity):
 	def calc_grav(self):
 		""" Calculate effect of gravity. """
 		if self.change_y == 0:
-			self.change_y = 1
+			self.change_y = 1 if not self.in_water() else 0.5
 		else:
-			self.change_y += .35
+			self.change_y += .35 if not self.in_water() else 0.175
 
 		# See if we are on the ground.
 		if self.rect.y >= SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
 			self.change_y = 0
 			self.rect.y = SCREEN_HEIGHT - self.rect.height
+
+	def in_water(self):
+		return False
 
 	def jump(self):
 		""" Called when user hits 'jump' button. """
@@ -136,7 +136,7 @@ class Player(Entity):
 		self.rect.y -= 2
 
 		# If it is ok to jump, set our speed upwards
-		if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT:
+		if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT or self.in_water():
 			self.change_y = -10
 
 	# Player-controlled movement:
@@ -190,6 +190,7 @@ class Level():
 		""" Constructor. Pass in a handle to player. Needed for when moving
 			platforms collide with the player. """
 		self.platform_list = pygame.sprite.Group()
+		self.water_list = pygame.sprite.Group()
 		self.enemy_list = pygame.sprite.Group()
 		self.player = player
 
@@ -255,7 +256,45 @@ class Level_01(Level):
 			self.platform_list.add(block)
 
 class LevelFromImage(Level):
+	""" Try to generate a level from an image.
+	Note that each pixel in the image represents a block () """
 
+	def __init__(self, player, source):
+		""" Create a level from an image. """
+
+		BLOCKSIZE = SCREEN_HEIGHT / 20 # 20 blocks hoog
+
+		from PIL import Image
+		
+		# Call the parent constructor
+		Level.__init__(self, player)
+
+		level = Image.open(source)
+		
+		*topleft, width, height = level.getbbox()
+
+		self.level_limit = -BLOCKSIZE * width
+
+
+		for x in range(width):
+			for y in range(height):
+				r, g, b, a = level.getpixel((x, y))
+
+				# Skip transparante pixels
+				if a == 0:
+					continue
+
+				platform = Platform(BLOCKSIZE, BLOCKSIZE)
+				platform.rect.x = x * BLOCKSIZE
+				platform.rect.y = y * BLOCKSIZE
+
+
+				if (r, g, b) == WATER:
+					# Voeg toe aan water sprites
+					self.water_list.add(platform)
+				else:
+					# Voeg toe aan andere sprites
+					self.platform_list.add(platform)
 
 
 def main():
@@ -266,14 +305,14 @@ def main():
 	size = [SCREEN_WIDTH, SCREEN_HEIGHT]
 	screen = pygame.display.set_mode(size)
 
-	pygame.display.set_caption("Side-scrolling Platformer")
+	pygame.display.set_caption("Marcio")
 
 	# Create the player
 	player = Player()
 
 	# Create all the levels
 	level_list = []
-	level_list.append(Level_01(player))
+	level_list.append(LevelFromImage(player, "res/level1.png"))
 
 	# Set the current level
 	current_level_no = 0
@@ -282,8 +321,8 @@ def main():
 	active_sprite_list = pygame.sprite.Group()
 	player.level = current_level
 
-	player.rect.x = 200
-	player.rect.y = SCREEN_HEIGHT - player.rect.height
+	player.rect.x = 5 * 30
+	player.rect.y = SCREEN_HEIGHT - 5 * 30
 	active_sprite_list.add(player)
 
 	# Loop until the user clicks the close button.
