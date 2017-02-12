@@ -77,6 +77,9 @@ class Player(Entity):
 
 	def update(self):
 		""" Move the player. """
+
+		self.is_in_water = self.in_water()
+
 		# Gravity
 		self.calc_grav()
 
@@ -112,10 +115,11 @@ class Player(Entity):
 
 	def calc_grav(self):
 		""" Calculate effect of gravity. """
+
 		if self.change_y == 0:
-			self.change_y = 1 if not self.in_water() else 0.5
+			self.change_y = 1 if not self.is_in_water else 0.5
 		else:
-			self.change_y += .35 if not self.in_water() else 0.175
+			self.change_y += .35 if not self.is_in_water else 0.175
 
 		# See if we are on the ground.
 		if self.rect.y >= SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
@@ -123,7 +127,7 @@ class Player(Entity):
 			self.rect.y = SCREEN_HEIGHT - self.rect.height
 
 	def in_water(self):
-		return False
+		return len(pygame.sprite.spritecollide(self, self.level.water_list, False)) > 0
 
 	def jump(self):
 		""" Called when user hits 'jump' button. """
@@ -136,7 +140,7 @@ class Player(Entity):
 		self.rect.y -= 2
 
 		# If it is ok to jump, set our speed upwards
-		if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT or self.in_water():
+		if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT or self.is_in_water:
 			self.change_y = -10
 
 	# Player-controlled movement:
@@ -156,29 +160,16 @@ class Player(Entity):
 class Platform(pygame.sprite.Sprite):
 	""" Platform the user can jump on """
 
-	def __init__(self, width, height):
+	def __init__(self, width, height, color=GREEN):
 		""" Platform constructor. Assumes constructed with user passing in
 			an array of 5 numbers like what's defined at the top of this code.
 			"""
 		super().__init__()
 
 		self.image = pygame.Surface([width, height])
-		self.image.fill(GREEN)
+		self.image.fill(color)
 
 		self.rect = self.image.get_rect()
-
-# DIT IS BS.  NIET GEBRUIKEN LOL
-class PlatformFromGraphic(pygame.sprite.Sprite):
-	""" Platform based off of an image """
-	def __init__(self, source):
-		""" Platform constructor. Takes a source of an image, and inflates it
-			into a pygame image.
-			"""
-		super().__init__()
-
-		self.image = pygame.image.load(source).convert_alpha()
-		self.rect = self.image.get_rect()
-# </BS>
 
 
 class Level():
@@ -202,6 +193,7 @@ class Level():
 		""" Update everything in this level."""
 		self.platform_list.update()
 		self.enemy_list.update()
+		self.water_list.update()
 
 	def draw(self, screen):
 		""" Draw everything on this level. """
@@ -211,6 +203,7 @@ class Level():
 
 		# Draw all the sprite lists that we have
 		self.platform_list.draw(screen)
+		self.water_list.draw(screen)
 		self.enemy_list.draw(screen)
 
 	def shift_world(self, shift_x):
@@ -226,6 +219,9 @@ class Level():
 
 		for enemy in self.enemy_list:
 			enemy.rect.x += shift_x
+
+		for water in self.water_list:
+			water.rect.x += shift_x
 
 
 # Create platforms for the level
@@ -275,26 +271,24 @@ class LevelFromImage(Level):
 
 		self.level_limit = -BLOCKSIZE * width
 
+		for px in range(width):
 
-		for x in range(width):
-			for y in range(height):
-				r, g, b, a = level.getpixel((x, y))
+			rendered
+
+			for py in range(height):
+
+				consecutive_pixels = 1
+
+				r, g, b, a = level.getpixel((px, py))
 
 				# Skip transparante pixels
 				if a == 0:
 					continue
 
-				platform = Platform(BLOCKSIZE, BLOCKSIZE)
-				platform.rect.x = x * BLOCKSIZE
-				platform.rect.y = y * BLOCKSIZE
+				while level.getpixel((px + consecutive_pixels, py)) == (r, g, b, a):
+					consecutive_pixels++
 
-
-				if (r, g, b) == WATER:
-					# Voeg toe aan water sprites
-					self.water_list.add(platform)
-				else:
-					# Voeg toe aan andere sprites
-					self.platform_list.add(platform)
+				# TODO
 
 
 def main():
@@ -344,6 +338,9 @@ def main():
 				done = True
 
 			if event.type == pygame.KEYDOWN:
+				if event.key == pygame.K_ESCAPE:
+					done = True
+
 				if event.key in controls_left:
 					player.go_left()
 				if event.key in controls_right:
