@@ -119,7 +119,10 @@ class Player(Entity):
 		if self.change_y == 0:
 			self.change_y = 1 if not self.is_in_water else 0.5
 		else:
-			self.change_y += .35 if not self.is_in_water else 0.175
+			# Downward velocity in water is at most 5. This makes sure that the
+			# player loses y-velocity when he falls into the water with a
+			# high velocity downwards.
+			self.change_y = self.change_y + .35 if not self.is_in_water else min(self.change_y + .35, 5)
 
 		# See if we are on the ground.
 		if self.rect.y >= SCREEN_HEIGHT - self.rect.height and self.change_y >= 0:
@@ -141,7 +144,7 @@ class Player(Entity):
 
 		# If it is ok to jump, set our speed upwards
 		if len(platform_hit_list) > 0 or self.rect.bottom >= SCREEN_HEIGHT or self.is_in_water:
-			self.change_y = -10
+			self.change_y = -10 if not self.is_in_water else -7
 
 	# Player-controlled movement:
 	def go_left(self):
@@ -271,24 +274,40 @@ class LevelFromImage(Level):
 
 		self.level_limit = -BLOCKSIZE * width
 
-		for px in range(width):
+		for py in range(height):
 
-			rendered
+			# The amount of consecutive pixels with the same color (1 when we start)
+			consecutive_pixels = 1
 
-			for py in range(height):
-
-				consecutive_pixels = 1
+			for px in range(width):
 
 				r, g, b, a = level.getpixel((px, py))
 
-				# Skip transparante pixels
+				# Skip transparant pixels
 				if a == 0:
+					consecutive_pixels = 1
 					continue
 
-				while level.getpixel((px + consecutive_pixels, py)) == (r, g, b, a):
-					consecutive_pixels++
+				# If there is no "next pixel" or the pixel after this one is different
+				if px + 1 >= width or level.getpixel((px + 1, py)) != (r, g, b, a):
+					# Make a platform with a width such that it resembles all consecutive pixels
+					platform = Platform(BLOCKSIZE * consecutive_pixels, BLOCKSIZE, (r, g, b))
+					platform.rect.x = (px - consecutive_pixels + 1) * BLOCKSIZE # x-offset -> (px should be inital pixel) * size of 1 block
+					platform.rect.y = py * BLOCKSIZE # y-offset, current y-value * size of 1 block
 
-				# TODO
+					# Add platform to the list that contains the other platforms
+					container = self.water_list if (r, g, b) == WATER else self.platform_list
+					container.add(platform)
+
+					# Clear the amount of consecutive pixels
+					consecutive_pixels = 1
+
+				else:
+					# In this case there is a next pixel, and it's the same color as the current
+					# So we increment the amount of consecutive pixels by 1
+					# which causes the resulting "block" or platform thingy to be widened by BLOCKSIZE
+					consecutive_pixels += 1
+					continue
 
 
 def main():
