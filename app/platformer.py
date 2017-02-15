@@ -270,7 +270,7 @@ class LevelFromImage(Level):
 
 		level = Image.open(source)
 		
-		*topleft, width, height = level.getbbox()
+		*__, width, height = level.getbbox()
 
 		self.level_limit = -BLOCKSIZE * width
 
@@ -285,7 +285,6 @@ class LevelFromImage(Level):
 
 				# Skip transparant pixels
 				if a == 0:
-					consecutive_pixels = 1
 					continue
 
 				# If there is no "next pixel" or the pixel after this one is different
@@ -298,6 +297,10 @@ class LevelFromImage(Level):
 					# Add platform to the list that contains the other platforms
 					container = self.water_list if (r, g, b) == WATER else self.platform_list
 					container.add(platform)
+
+					if py == 11:
+						print("render {} {} {} for {} pixels".format(r, g, b, consecutive_pixels))
+
 
 					# Clear the amount of consecutive pixels
 					consecutive_pixels = 1
