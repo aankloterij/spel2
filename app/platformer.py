@@ -298,10 +298,6 @@ class LevelFromImage(Level):
 					container = self.water_list if (r, g, b) == WATER else self.platform_list
 					container.add(platform)
 
-					if py == 11:
-						print("render {} {} {} for {} pixels".format(r, g, b, consecutive_pixels))
-
-
 					# Clear the amount of consecutive pixels
 					consecutive_pixels = 1
 
