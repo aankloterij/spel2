@@ -1,13 +1,8 @@
 """
-Sample Python/Pygame Programs
-Simpson College Computer Science
-http://programarcadegames.com/
-http://simpson.edu/computer-science/
-
 From:
 http://programarcadegames.com/python_examples/f.php?file=platform_scroller.py
 
-Explanation video: http://yout	u.be/QplXBw_NK5Y
+Explanation video: http://youtu.be/QplXBw_NK5Y
 
 Part of a series:
 http://programarcadegames.com/python_examples/f.php?file=move_with_walls_example.py
@@ -16,12 +11,11 @@ http://programarcadegames.com/python_examples/f.php?file=platform_jumper.py
 http://programarcadegames.com/python_examples/f.php?file=platform_scroller.py
 http://programarcadegames.com/python_examples/f.php?file=platform_moving.py
 http://programarcadegames.com/python_examples/sprite_sheets/
-
 """
 
 import pygame
 
-from player import Player
+import player
 from level import Level, LevelFromImage, Level_01, Platform
 import constants
 
@@ -36,22 +30,22 @@ def main():
 	pygame.display.set_caption("Marcio")
 
 	# Create the player
-	player = Player()
+	_player = player.Player()
 
 	# Create all the levels
 	level_list = []
-	level_list.append(LevelFromImage(player, "res/level1.png"))
+	level_list.append(LevelFromImage(_player, "res/level1.png"))
 
 	# Set the current level
 	current_level_no = 0
 	current_level = level_list[current_level_no]
 
 	active_sprite_list = pygame.sprite.Group()
-	player.level = current_level
+	_player.level = current_level
 
-	player.rect.x = 5 * 30
-	player.rect.y = constants.SCREEN_HEIGHT - 5 * 30
-	active_sprite_list.add(player)
+	_player.rect.x = 5 * 30
+	_player.rect.y = constants.SCREEN_HEIGHT - 5 * 30
+	active_sprite_list.add(_player)
 
 	# Loop until the user clicks the close button.
 	done = False
@@ -76,17 +70,17 @@ def main():
 					done = True
 
 				if event.key in controls_left:
-					player.go_left()
+					_player.go_left()
 				if event.key in controls_right:
-					player.go_right()
+					_player.go_right()
 				if event.key in controls_up:
-					player.jump()
+					_player.jump()
 
 			if event.type == pygame.KEYUP:
-				if event.key in controls_left and player.change_x < 0:
-					player.stop()
-				if event.key in controls_right and player.change_x > 0:
-					player.stop()
+				if event.key in controls_left and _player.change_x < 0:
+					_player.stop()
+				if event.key in controls_right and _player.change_x > 0:
+					_player.stop()
 
 		# Update the player.
 		active_sprite_list.update()
@@ -95,25 +89,25 @@ def main():
 		current_level.update()
 
 		# If the player gets near the right side, shift the world left (-x)
-		if player.rect.right >= 500:
-			diff = player.rect.right - 500
-			player.rect.right = 500
+		if _player.rect.right >= 500:
+			diff = _player.rect.right - 500
+			_player.rect.right = 500
 			current_level.shift_world(-diff)
 
 		# If the player gets near the left side, shift the world right (+x)
-		if player.rect.left <= 120:
-			diff = 120 - player.rect.left
-			player.rect.left = 120
+		if _player.rect.left <= 120:
+			diff = 120 - _player.rect.left
+			_player.rect.left = 120
 			current_level.shift_world(diff)
 
 		# If the player gets to the end of the level, go to the next level
-		current_position = player.rect.x + current_level.world_shift
+		current_position = _player.rect.x + current_level.world_shift
 		if current_position < current_level.level_limit:
-			player.rect.x = 120
+			_player.rect.x = 120
 			if current_level_no < len(level_list)-1:
 				current_level_no += 1
 				current_level = level_list[current_level_no]
-				player.level = current_level
+				_player.level = current_level
 
 		# ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
 		current_level.draw(screen)
