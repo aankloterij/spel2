@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 # Check if python3 exists,
 # if it does we use that
 if ! type "$python3" > /dev/null ; then
@@ -12,7 +11,7 @@ elif ! type "$python" > /dev/null ; then
 	# Check if the python version is not 3, if it is, exit with a nice message
 	if (python -c 'import sys; print sys.version_info.major' != 3) > /dev/null ; then
 		echo "You need at least Python 3 to run this!"
-		exit
+		exit 1
 	fi
 
 	# Python 3 is installed with the executable python
@@ -23,7 +22,7 @@ else
 	# No python version is installed (or in the path)
 	echo "You need at least Python 3 to run this!"
 	echo "If you did install python, make sure it is in your PATH"
-	exit
+	exit 1
 fi
 
 $PYCMD 'app/platformer.py'
