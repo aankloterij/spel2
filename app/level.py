@@ -28,6 +28,7 @@ class Level():
 		self.platform_list = pygame.sprite.Group()
 		self.water_list = pygame.sprite.Group()
 		self.enemy_list = pygame.sprite.Group()
+		self.objective_list = pygame.sprite.Group()
 		self.player = player
 
 		# How far this world has been scrolled left/right
@@ -39,6 +40,7 @@ class Level():
 		self.platform_list.update()
 		self.enemy_list.update()
 		self.water_list.update()
+		self.objective_list.update()
 
 	def draw(self, screen):
 		""" Draw everything on this level. """
@@ -49,6 +51,7 @@ class Level():
 		# Draw all the sprite lists that we have
 		self.platform_list.draw(screen)
 		self.water_list.draw(screen)
+		self.objective_list.draw(screen)
 		self.enemy_list.draw(screen)
 
 	def shift_world(self, shift_x):
@@ -67,6 +70,9 @@ class Level():
 
 		for water in self.water_list:
 			water.rect.x += shift_x
+
+		for objective in self.objective_list:
+			objective.rect.x += shift_x
 
 
 # Create platforms for the level
@@ -126,7 +132,10 @@ class LevelFromImage(Level):
 				r, g, b, a = level.getpixel((px, py))
 
 				# Skip transparant pixels
-				if a == 0:
+				# Skip anything that isn't completely opaque
+				# WARNING TODO IDK WTF HELP ITS BROKEN
+				# THIS WILL NOT WORK IF WE WANT ANYTHING TO BE TRANSPARENT
+				if a < 1:
 					continue
 
 				# If there is no "next pixel" or the pixel after this one is different
@@ -136,8 +145,16 @@ class LevelFromImage(Level):
 					platform.rect.x = (px - consecutive_pixels + 1) * BLOCKSIZE # x-offset -> (px should be inital pixel) * size of 1 block
 					platform.rect.y = py * BLOCKSIZE # y-offset, current y-value * size of 1 block
 
+					container = None
+
 					# Add platform to the list that contains the other platforms
-					container = self.water_list if (r, g, b) == constants.WATER else self.platform_list
+					if (r, g, b) == constants.WATER:
+						container = self.water_list
+					elif (r, g, b) == constants.PICKUP:
+						container = self.objective_list
+					else:
+						container = self.platform_list
+
 					container.add(platform)
 
 					# Clear the amount of consecutive pixels

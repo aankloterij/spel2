@@ -24,6 +24,8 @@ def main():
 	""" Main Program """
 	pygame.init()
 
+	pygame.font.init()
+
 	# Set the height and width of the screen
 	size = [constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT]
 	screen = pygame.display.set_mode(size)
@@ -48,7 +50,7 @@ def main():
 	_player.rect.y = constants.SCREEN_HEIGHT - 5 * 30
 	active_sprite_list.add(_player)
 
-	hud = HUD(player)
+	hud = HUD(_player)
 
 	# Loop until the user clicks the close button.
 	done = False
