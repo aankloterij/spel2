@@ -14,7 +14,15 @@ class HUD:
 		self.xleft = self.padding
 		self.ybottom = constants.SCREEN_HEIGHT - self.heart_height - self.padding
 
-	def draw(self, surface):
+	def draw(self, surface, text=None):
+
+		if text != None:
+			text_surface = self.font.render(str(text), False, (0, 0, 0))
+			surface.blit(text_surface, (self.padding, self.padding))
+		else:
+			text_surface = self.font.render('', False, (0, 0, 0))
+			surface.blit(text_surface, (self.padding, self.padding))
+
 
 		x = y = 0
 
@@ -24,6 +32,3 @@ class HUD:
 
 			surface.blit(self.heart_image, (x, y))
 
-		text_surface = self.font.render(str(self.p.lives), False, (0, 0, 0))
-
-		surface.blit(text_surface, (x + self.padding + self.heart_width, y - 8))

@@ -98,6 +98,9 @@ class Player(Entity):
 			self.change_y = 0
 			self.rect.y = constants.SCREEN_HEIGHT - self.rect.height
 
+	def hits_objective(self):
+		return len(pygame.sprite.spritecollide(self, self.level.objective_list, False)) > 0
+
 	def in_water(self):
 		return len(pygame.sprite.spritecollide(self, self.level.water_list, False)) > 0
 

@@ -114,10 +114,16 @@ def main():
 				current_level = level_list[current_level_no]
 				_player.level = current_level
 
+		dialog = None
+
+		if _player.hits_objective():
+			dialog = "You just hit something :D"
+
+
 		# ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
 		current_level.draw(screen)
 		active_sprite_list.draw(screen)
-		hud.draw(screen)
+		hud.draw(screen, dialog)
 
 		# ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
 
