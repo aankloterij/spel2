@@ -17,6 +17,7 @@ import pygame
 
 import player
 from level import Level, LevelFromImage, Level_01, Platform
+from hud import HUD
 import constants
 
 def main():
@@ -46,6 +47,8 @@ def main():
 	_player.rect.x = 5 * 30
 	_player.rect.y = constants.SCREEN_HEIGHT - 5 * 30
 	active_sprite_list.add(_player)
+
+	hud = HUD(player)
 
 	# Loop until the user clicks the close button.
 	done = False
@@ -112,6 +115,7 @@ def main():
 		# ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
 		current_level.draw(screen)
 		active_sprite_list.draw(screen)
+		hud.draw(screen)
 
 		# ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
 
