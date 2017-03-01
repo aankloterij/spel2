@@ -8,7 +8,7 @@ class HUD:
 		self.heart_image = pygame.image.load('res/heart.png').convert_alpha()
 		self.heart_width, self.heart_height = self.heart_image.get_rect().size
 
-		self.font = pygame.font.SysFont(constants.FONT, 30)
+		self.font = pygame.font.SysFont(constants.FONT_NAME, 30)
 
 		self.padding = 15
 		self.xleft = self.padding

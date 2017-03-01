@@ -20,4 +20,4 @@ WATER = (0, 182, 233)
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
 
-FONT = 'Comic Sans MS'
+FONT_NAME = 'Comic Sans MS'
