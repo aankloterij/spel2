@@ -41,6 +41,9 @@ class Player(Entity):
 		# List of sprites we can bump against
 		self.level = None
 
+		# Amount of lives
+		self.lives = 3
+
 	def update(self):
 		""" Move the player. """
 
