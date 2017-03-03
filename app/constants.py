@@ -12,8 +12,7 @@ GREEN = (0, 255, 0)
 RED = (255, 0, 0)
 BLUE = (128, 128, 255)
 
-PICKUP = (228, 4, 40)
-
+OBJECTIVE = PICKUP = (228, 4, 40)
 WATER = (0, 182, 233)
 
 # Screen dimensions
