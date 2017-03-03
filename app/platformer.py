@@ -32,6 +32,8 @@ def main():
 
 	pygame.display.set_caption("Marcio")
 
+	pygame.display.set_icon(pygame.image.load("res/player.png"))
+
 	# Create the player
 	_player = player.Player()
 
@@ -113,8 +115,6 @@ def main():
 				current_level_no += 1
 				current_level = level_list[current_level_no]
 				_player.level = current_level
-
-		dialog = None
 
 		# TODO detect what block we just hit so we can show the code
 		# TODO choose to accept the code by pressing `E`

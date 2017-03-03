@@ -31,6 +31,9 @@ class Player(Entity):
 
 		self.image = pygame.image.load('res/player.png').convert_alpha()
 
+		# Force schale the image to 1x2 blocks
+		self.image = pygame.transform.scale(self.image, (30, 60))
+
 		# Set a referance to the image rect.
 		self.rect = self.image.get_rect()
 
