@@ -17,14 +17,8 @@ class HUD:
 	def draw(self, surface, text=None):
 
 		if text != None:
-			text_surface = self.font.render(str(text), False, (0, 0, 0))
+			text_surface = self.font.render(str(text), False, constants.BLACK)
 			surface.blit(text_surface, (self.padding, self.padding))
-		else:
-			text_surface = self.font.render('', False, (0, 0, 0))
-			surface.blit(text_surface, (self.padding, self.padding))
-
-
-		x = y = 0
 
 		for i in range(self.p.lives):
 			x = self.xleft + (self.heart_width + self.padding) * i

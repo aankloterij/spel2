@@ -1,6 +1,7 @@
 import pygame
 
 import constants
+import objective
 
 class Platform(pygame.sprite.Sprite):
 	""" Platform the user can jump on """
@@ -28,7 +29,7 @@ class Level():
 		self.platform_list = pygame.sprite.Group()
 		self.water_list = pygame.sprite.Group()
 		self.enemy_list = pygame.sprite.Group()
-		self.objective_list = pygame.sprite.Group()
+		self.objective_list = objective.ObjectiveList()
 		self.player = player
 
 		# How far this world has been scrolled left/right
@@ -140,22 +141,27 @@ class LevelFromImage(Level):
 
 				# If there is no "next pixel" or the pixel after this one is different
 				if px + 1 >= width or level.getpixel((px + 1, py)) != (r, g, b, a):
-					# Make a platform with a width such that it resembles all consecutive pixels
-					platform = Platform(BLOCKSIZE * consecutive_pixels, BLOCKSIZE, (r, g, b))
-					platform.rect.x = (px - consecutive_pixels + 1) * BLOCKSIZE # x-offset -> (px should be inital pixel) * size of 1 block
-					platform.rect.y = py * BLOCKSIZE # y-offset, current y-value * size of 1 block
 
 					container = None
 
-					# Add platform to the list that contains the other platforms
-					if (r, g, b) == constants.WATER:
+					if (r, g, b) == constants.OBJECTIVE:
+						# Objective, niet renderen
+						obj = objective.Objective()
+
+					elif (r, g, b) == constants.WATER:
+						# Ding, render wel.
 						container = self.water_list
-					elif (r, g, b) == constants.PICKUP:
-						container = self.objective_list
+
 					else:
 						container = self.platform_list
 
-					container.add(platform)
+					if container != None:
+						platform = Platform(BLOCKSIZE * consecutive_pixels, BLOCKSIZE, (r, g, b))
+						platform.rect.x = (px - consecutive_pixels + 1) * BLOCKSIZE # x-offset -> (px should be inital pixel) * size of 1 block
+						platform.rect.y = py * BLOCKSIZE # y-offset, current y-value * size of 1 block
+
+						container.add(platform)
+
 
 					# Clear the amount of consecutive pixels
 					consecutive_pixels = 1
