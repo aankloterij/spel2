@@ -116,6 +116,8 @@ def main():
 				current_level = level_list[current_level_no]
 				_player.level = current_level
 
+		dialog = None
+
 		# TODO detect what block we just hit so we can show the code
 		# TODO choose to accept the code by pressing `E`
 		if _player.hits_objective():

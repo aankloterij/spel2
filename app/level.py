@@ -1,6 +1,7 @@
 import pygame
 
 import constants
+from constants import BLOCKSIZE
 import objective
 
 class Platform(pygame.sprite.Sprite):
@@ -110,7 +111,7 @@ class LevelFromImage(Level):
 	def __init__(self, player, source):
 		""" Create a level from an image. """
 
-		BLOCKSIZE = constants.SCREEN_HEIGHT / 20 # 20 blocks hoog
+		# BLOCKSIZE = constants.SCREEN_HEIGHT / 20 # 20 blocks hoog
 
 		from PIL import Image
 
@@ -146,7 +147,8 @@ class LevelFromImage(Level):
 
 					if (r, g, b) == constants.OBJECTIVE:
 						# Objective, niet renderen
-						obj = objective.Objective()
+						obj = objective.Objective(px * BLOCKSIZE, py * BLOCKSIZE)
+						self.objective_list.add(obj)
 
 					elif (r, g, b) == constants.WATER:
 						# Ding, render wel.
