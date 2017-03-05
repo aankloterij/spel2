@@ -76,9 +76,28 @@ class GameMenu():
 
 					clicked_sprites = [s for s in self.sprites if s.collidepoint(pos)]
 
+					# If the user clicked any sprites at all
 					if len(clicked_sprites) > 0:
-						print('You clicked exit')
-						exit(0)
+						# ('RESUME', 'EXIT', 'RESTART')
+
+						# The user clicked resume, go back to the game
+						if self.sprites.index(clicked_sprites[0]) == 0:
+							mainloop = False
+
+						# The user clicked exit, so exit the program
+						elif self.sprites.index(clicked_sprites[0]) == 1:
+							exit(0)
+
+						elif self.sprites.index(clicked_sprites[0]) == 2:
+							# TODO psutil not found
+							import os, sys, psutil
+
+							p = psutil.Process(os.getpid())
+							for handler in p.get_open_files() + p.connections():
+								os.close(handler.fd)
+
+							python = sys.executable
+							os.execl(python, python, *sys.argv)
 
 			self.sprites = []
 

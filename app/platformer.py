@@ -86,7 +86,7 @@ def main():
 
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_ESCAPE:
-					menu = GameMenu(screen, ('EXIT', 'ABOUT'))
+					menu = GameMenu(screen, ('RESUME', 'EXIT', 'RESTART'))
 					menu.run()
 
 				# Toggle fullscreen with F11
