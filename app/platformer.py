@@ -17,7 +17,7 @@ import pygame
 
 from player import Player
 from level import Level, HetLevelVanOnsSpel, Level_01, Platform
-from hud import HUD
+from hud import HUD, GameMenu
 import constants
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_CENTER
 
@@ -75,7 +75,8 @@ def main():
 
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_ESCAPE:
-					done = True
+					menu = GameMenu(screen, ('Start', 'Lol'))
+					menu.run()
 
 				if event.key in controls_left:
 					player.go_left()
@@ -137,6 +138,21 @@ def main():
 	# Be IDLE friendly. If you forget this line, the program will 'hang'
 	# on exit.
 	pygame.quit()
+
+def restart_program():
+	"""Restarts the current program, with file objects and descriptors
+	   cleanup
+	"""
+	import os
+	import sys
+	import psutil
+
+	p = psutil.Process(os.getpid())
+	for handler in p.get_open_files() + p.connections():
+		os.close(handler.fd)
+
+	python = sys.executable
+	os.execl(python, python, *sys.argv)
 
 if __name__ == "__main__":
 	main()
