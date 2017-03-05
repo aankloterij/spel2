@@ -32,7 +32,7 @@ class Player(Entity):
 		self.image = pygame.image.load('res/player.png').convert_alpha()
 
 		# Force schale the image to 1x2 blocks
-		self.image = pygame.transform.scale(self.image, (30, 60))
+		self.image = pygame.transform.scale(self.image, (30, 41))
 
 		# Set a referance to the image rect.
 		self.rect = self.image.get_rect()
@@ -110,6 +110,9 @@ class Player(Entity):
 
 	def hits_objective(self):
 		return len(pygame.sprite.spritecollide(self, self.level.objective_list, False)) > 0
+
+	def in_lava(self):
+		return len(pygame.sprite.spritecollide(self, self.level.lava_list, False)) > 0
 
 	def in_water(self):
 		return len(pygame.sprite.spritecollide(self, self.level.water_list, False)) > 0

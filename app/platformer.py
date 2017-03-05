@@ -31,6 +31,8 @@ def main():
 	size = [SCREEN_WIDTH, SCREEN_HEIGHT]
 	screen = pygame.display.set_mode(size)
 
+	flags = screen.get_flags()
+
 	pygame.display.set_caption("Marcio")
 
 	pygame.display.set_icon(pygame.image.load("res/player.png"))
@@ -78,6 +80,15 @@ def main():
 					menu = GameMenu(screen, ('Start', 'Lol'))
 					menu.run()
 
+				# Toggle fullscreen with F11
+				if event.key == pygame.K_F11:
+					if flags & pygame.FULLSCREEN == False:
+						flags |= pygame.FULLSCREEN
+						pygame.display.set_mode(size, flags)
+					else:
+						flags ^= pygame.FULLSCREEN
+						pygame.display.set_mode(size, flags)
+
 				if event.key in controls_left:
 					player.go_left()
 				if event.key in controls_right:
@@ -98,8 +109,6 @@ def main():
 		current_level.update()
 
 		# Keep the player in the center of the level
-		print(current_level.world_shift)
-
 		if player.rect.centerx != SCREEN_CENTER:
 			diff = SCREEN_CENTER - player.rect.centerx
 
@@ -116,6 +125,27 @@ def main():
 				current_level.shift_world(diff)
 
 		dialog = None
+
+		# If the player hits lava,
+		# he will lose one heart and get teleported to the start of the level
+		if player.in_lava():
+
+			current_level.shift_world(-current_level.world_shift)
+
+			# Teleport the player back to the starting position
+			# TODO Teleporting like this doesn't really work
+			player.rect.x = 5 * 30
+			player.rect.y = constants.SCREEN_HEIGHT - 5 * 30
+
+			# Reduce the amount of lives by one
+			player.lives -= 1
+
+			# If the player has 0 hearts left,
+			# exit with a message in the console
+			# TODO Make this a nice dialog for people who don't run the game from the console
+			if player.lives == 0:
+				print("Game over, RIP")
+				return
 
 		# TODO detect what block we just hit so we can show the code
 		# TODO choose to accept the code by pressing `E`
