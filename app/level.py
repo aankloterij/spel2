@@ -191,17 +191,17 @@ class HetLevelVanOnsSpel(LevelFromImage):
 		super().__init__(player, "res/level1.png")
 
 		snippets = {
-			0: '<html>',
-			1: '<head>',
-			2: '<title>',
-			3: 'De titel van de site',
-			4: '</title>',
-			5: '<body>',
-			6: 'content avn je site',
-			7: '</body></html>',
-			8: 'test',
-			9: 'asdf',
-			10: 'l;p;sd',
+			0: '1 <html>',
+			1: '2 <head>',
+			2: '3 <title>',
+			3: '4 De titel van de site',
+			4: '5 </title>',
+			5: '6 <body>',
+			6: '7 content avn je site',
+			7: '8 </body></html>',
+			8: '9 test',
+			9: '10 asdf',
+			10: '11 l;p;sd',
 		}
 
 		# Zet objectives in het level

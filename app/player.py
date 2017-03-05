@@ -47,6 +47,9 @@ class Player(Entity):
 		# Amount of lives
 		self.lives = 3
 
+		# Next objective
+		self.next_objective = 0
+
 	def update(self):
 		""" Move the player. """
 
@@ -108,8 +111,8 @@ class Player(Entity):
 			self.change_y = 0
 			self.rect.y = constants.SCREEN_HEIGHT - self.rect.height
 
-	def hits_objective(self):
-		return len(pygame.sprite.spritecollide(self, self.level.objective_list, False)) > 0
+	def get_touching_objectives(self):
+		return pygame.sprite.spritecollide(self, self.level.objective_list, False)
 
 	def in_lava(self):
 		return len(pygame.sprite.spritecollide(self, self.level.lava_list, False)) > 0
