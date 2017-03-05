@@ -49,3 +49,4 @@ class ObjectiveList(pygame.sprite.Group):
 			index, snippet = random.choice(list(snippets.items()))
 
 			objective.set_snippet(index, snippet)
+			del snippets[index]
