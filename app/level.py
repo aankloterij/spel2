@@ -202,6 +202,7 @@ class HetLevelVanOnsSpel(LevelFromImage):
 			8: 'test',
 			9: 'asdf',
 			10: 'l;p;sd',
+			11: 'dfjkls',
 		}
 
 		# Zet objectives in het level

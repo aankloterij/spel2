@@ -41,7 +41,7 @@ def main():
 
 	pygame.display.set_caption("Marcio")
 
-	pygame.display.set_icon(pygame.image.load("res/player.png"))
+	pygame.display.set_icon(pygame.image.load("res/code.png"))
 
 	# Create the player
 	player = Player()
