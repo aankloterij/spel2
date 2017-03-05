@@ -69,6 +69,13 @@ class Player(Entity):
 				# Otherwise if we are moving left, do the opposite.
 				self.rect.left = block.rect.right
 
+		# See if we move out of the map
+		if self.rect.left < 0:
+			self.rect.left = 0
+
+		if self.rect.right > self.level.level_limit:
+			self.rect.right = self.level.level_limit
+
 		# Move up/down
 		self.rect.y += self.change_y
 

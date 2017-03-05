@@ -1,5 +1,6 @@
 import pygame
 import constants
+import random
 from constants import BLOCKSIZE, FONT_NAME
 from player import Entity
 
@@ -8,10 +9,13 @@ class Objective(Entity):
 	def __init__(self, x, y):
 		super().__init__()
 		self.image = pygame.image.load("res/code.png").convert_alpha()
-
 		self.rect = pygame.Rect(x, y, BLOCKSIZE, BLOCKSIZE)
+		self.font = pygame.font.SysFont(FONT_NAME, 16)
+		self.text = None # Dit wordt later ingesteld
 
-		self.text = pygame.font.SysFont(FONT_NAME, 16).render("<html>", 1, constants.RED)
+	def set_snippet(self, order, text):
+		self.order = order
+		self.text = self.font.render(text, 1, constants.OBJECTIVE_HELPER)
 
 
 
@@ -37,3 +41,14 @@ class ObjectiveList(pygame.sprite.Group):
 			surface_blit(spr.text, (x, y))
 
 		self.lostsprites = []
+
+	def populate_objectives(self, snippets):
+		objectives = self.sprites()
+
+		if len(objectives) != len(snippets):
+			exit("Error: te veel/weinig objectives voor het level")
+
+		for objective in objectives:
+			index, snippet = random.choice(list(snippets.items()))
+
+			objective.set_snippet(index, snippet)

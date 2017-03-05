@@ -16,9 +16,10 @@ http://programarcadegames.com/python_examples/sprite_sheets/
 import pygame
 
 from player import Player
-from level import Level, LevelFromImage, Level_01, Platform
+from level import Level, HetLevelVanOnsSpel, Level_01, Platform
 from hud import HUD
 import constants
+from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_CENTER
 
 def main():
 	""" Main Program """
@@ -27,7 +28,7 @@ def main():
 	pygame.font.init()
 
 	# Set the height and width of the screen
-	size = [constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT]
+	size = [SCREEN_WIDTH, SCREEN_HEIGHT]
 	screen = pygame.display.set_mode(size)
 
 	pygame.display.set_caption("Marcio")
@@ -39,7 +40,7 @@ def main():
 
 	# Create all the levels
 	level_list = []
-	level_list.append(LevelFromImage(player, "res/level1.png"))
+	level_list.append(HetLevelVanOnsSpel(player))
 
 	# Set the current level
 	current_level_no = 0
@@ -49,7 +50,7 @@ def main():
 	player.level = current_level
 
 	player.rect.x = 5 * 30
-	player.rect.y = constants.SCREEN_HEIGHT - 5 * 30
+	player.rect.y = SCREEN_HEIGHT - 5 * 30
 	active_sprite_list.add(player)
 
 	hud = HUD(player)
@@ -95,26 +96,23 @@ def main():
 		# Update items in the level
 		current_level.update()
 
-		# If the player gets near the right side, shift the world left (-x)
-		if player.rect.right >= 500:
-			diff = player.rect.right - 500
-			player.rect.right = 500
-			current_level.shift_world(-diff)
+		# Keep the player in the center of the level
+		print(current_level.world_shift)
 
-		# If the player gets near the left side, shift the world right (+x)
-		if player.rect.left <= 120:
-			diff = 120 - player.rect.left
-			player.rect.left = 120
-			current_level.shift_world(diff)
+		if player.rect.centerx != SCREEN_CENTER:
+			diff = SCREEN_CENTER - player.rect.centerx
 
-		# If the player gets to the end of the level, go to the next level
-		current_position = player.rect.x + current_level.world_shift
-		if current_position < current_level.level_limit:
-			player.rect.x = 120
-			if current_level_no < len(level_list)-1:
-				current_level_no += 1
-				current_level = level_list[current_level_no]
-				player.level = current_level
+			if current_level.world_shift < 0:
+				player.rect.centerx = SCREEN_CENTER
+
+			if current_level.world_shift + diff > 0:
+				diff = -current_level.world_shift
+
+			# De rechterkant van de map werkt dus niet lekker, maak de map maar
+			# langer zodat je daar nooit kan komen, ez fix.
+
+			if diff != 0:
+				current_level.shift_world(diff)
 
 		dialog = None
 
