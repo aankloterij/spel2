@@ -42,6 +42,8 @@ class ObjectiveList(pygame.sprite.Group):
 	def populate_objectives(self, snippets):
 		objectives = self.sprites()
 
+		self.snippets = snippets
+
 		if len(objectives) != len(snippets):
 			exit("Error: te veel/weinig objectives voor het level")
 

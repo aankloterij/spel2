@@ -54,18 +54,38 @@ class GameMenu():
 
 	def run(self):
 		mainloop = True
+
+		self.sprites = []
+
 		while mainloop:
 			# Limit frame speed to 50 FPS
-			self.clock.tick(50)
+			# No fuck that, 60fps
+			self.clock.tick(60)
 
 			for event in pygame.event.get():
 				if event.type == pygame.QUIT:
 					mainloop = False
 
+				# Exit the menu when escape is pressed
+				if event.type == pygame.KEYDOWN:
+					if event.key == pygame.K_ESCAPE:
+						mainloop = False
+
+				if event.type == pygame.MOUSEBUTTONDOWN:
+					pos = pygame.mouse.get_pos()
+
+					clicked_sprites = [s for s in self.sprites if s.collidepoint(pos)]
+
+					if len(clicked_sprites) > 0:
+						print('You clicked exit')
+						exit(0)
+
+			self.sprites = []
+
 			# Redraw the background
 			self.screen.fill(self.bg_color)
 
 			for name, label, (width, height), (posx, posy) in self.items:
-				self.screen.blit(label, (posx, posy))
+				self.sprites.append(self.screen.blit(label, (posx, posy)))
 
 			pygame.display.flip()

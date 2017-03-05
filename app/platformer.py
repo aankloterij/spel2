@@ -86,7 +86,7 @@ def main():
 
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_ESCAPE:
-					menu = GameMenu(screen, ('Start', 'Lol'))
+					menu = GameMenu(screen, ('EXIT', 'ABOUT'))
 					menu.run()
 
 				# Toggle fullscreen with F11
@@ -165,7 +165,6 @@ def main():
 				current_level.shift_world(-current_level.world_shift)
 
 				# Teleport the player back to the starting position
-				# TODO Teleporting like this doesn't really work
 				player.rect.x = 5 * 30
 				player.rect.y = constants.SCREEN_HEIGHT - 5 * 30
 
@@ -183,7 +182,8 @@ def main():
 				# Goed objective
 				objective.kill()
 				player.next_objective += 1
-
+				# print(len(player.level.objective_list))
+				# print(player.next_objective)
 
 		# ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
 		current_level.draw(screen)
