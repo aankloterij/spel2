@@ -133,6 +133,17 @@ def main():
 			if diff != 0:
 				current_level.shift_world(diff)
 
+		if player.hits_end():
+
+			# Increment the current level
+			current_level_no += 1
+			current_level = level_list[current_level_no]
+
+			player.level = current_level
+
+			player.lives = constants.LIVES
+
+
 		# If the player hits lava,
 		# he will lose one heart and get teleported to the start of the level
 		if player.in_lava():

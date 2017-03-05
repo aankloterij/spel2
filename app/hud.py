@@ -25,8 +25,7 @@ class HUD:
 # Danku https://nebelprog.wordpress.com/2013/08/14/create-a-simple-game-menu-with-pygame-pt-1-writing-the-menu-options-to-the-screen/
 
 class GameMenu():
-	def __init__(self, screen, items, bg_color=(0,0,0), font_size=30,
-					font_color=(255, 255, 255)):
+	def __init__(self, screen, items, bg_color=(0,0,0), font_size=30, font_color=(255, 255, 255)):
 		self.screen = screen
 		self.scr_width = self.screen.get_rect().width
 		self.scr_height = self.screen.get_rect().height
@@ -46,6 +45,7 @@ class GameMenu():
 			height = label.get_rect().height
 
 			posx = (self.scr_width / 2) - (width / 2)
+			
 			# t_h: total height of text block
 			t_h = len(items) * height
 			posy = (self.scr_height / 2) - (t_h / 2) + (index * height)

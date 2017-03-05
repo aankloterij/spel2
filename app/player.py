@@ -45,7 +45,7 @@ class Player(Entity):
 		self.level = None
 
 		# Amount of lives
-		self.lives = 3
+		self.lives = constants.LIVES
 
 		# Next objective
 		self.next_objective = 0
@@ -119,6 +119,9 @@ class Player(Entity):
 
 	def in_water(self):
 		return len(pygame.sprite.spritecollide(self, self.level.water_list, False)) > 0
+
+	def hits_end(self):
+		return len(pygame.sprite.spritecollide(self, self.level.end_list, False)) > 0
 
 	def jump(self):
 		""" Called when user hits 'jump' button. """

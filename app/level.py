@@ -31,6 +31,7 @@ class Level():
 		self.enemy_list = pygame.sprite.Group()
 		self.objective_list = objective.ObjectiveList()
 		self.lava_list = pygame.sprite.Group()
+		self.end_list = pygame.sprite.Group()
 		self.player = player
 
 		# How far this world has been scrolled left/right
@@ -44,6 +45,7 @@ class Level():
 		self.water_list.update()
 		self.objective_list.update()
 		self.lava_list.update()
+		self.end_list.update()
 
 	def draw(self, screen):
 		""" Draw everything on this level. """
@@ -57,6 +59,7 @@ class Level():
 		self.objective_list.draw(screen)
 		self.enemy_list.draw(screen)
 		self.lava_list.draw(screen)
+		self.end_list.draw(screen)
 
 	def shift_world(self, shift_x):
 		""" When the user moves left/right and we need to scroll
@@ -80,6 +83,9 @@ class Level():
 
 		for lava in self.lava_list:
 			lava.rect.x += shift_x
+
+		for end in self.end_list:
+			end.rect.x += shift_x
 
 
 # Create platforms for the level
@@ -162,6 +168,9 @@ class LevelFromImage(Level):
 					elif (r, g, b) ==  constants.LAVA:
 						container = self.lava_list
 
+					elif (r, g, b) == constants.BLACK:
+						container = self.end_list
+
 					else:
 						container = self.platform_list
 
@@ -203,6 +212,7 @@ class HetLevelVanOnsSpel(LevelFromImage):
 			9: 'asdf',
 			10: 'l;p;sd',
 			11: 'dfjkls',
+			12: 'asfdsd',
 		}
 
 		# Zet objectives in het level
