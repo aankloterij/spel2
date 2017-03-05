@@ -30,6 +30,8 @@ def main():
 	size = [constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT]
 	screen = pygame.display.set_mode(size)
 
+	flags = screen.get_flags()
+
 	pygame.display.set_caption("Marcio")
 
 	pygame.display.set_icon(pygame.image.load("res/player.png"))
@@ -75,6 +77,15 @@ def main():
 			if event.type == pygame.KEYDOWN:
 				if event.key == pygame.K_ESCAPE:
 					done = True
+
+				# Toggle fullscreen with F11
+				if event.key == pygame.K_F11:
+					if flags & pygame.FULLSCREEN == False:
+						flags |= pygame.FULLSCREEN
+						pygame.display.set_mode(size, flags)
+					else:
+						flags ^= pygame.FULLSCREEN
+						pygame.display.set_mode(size, flags)
 
 				if event.key in controls_left:
 					_player.go_left()
