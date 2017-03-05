@@ -104,6 +104,9 @@ class Player(Entity):
 	def hits_objective(self):
 		return len(pygame.sprite.spritecollide(self, self.level.objective_list, False)) > 0
 
+	def in_lava(self):
+		return len(pygame.sprite.spritecollide(self, self.level.lava_list, False)) > 0
+
 	def in_water(self):
 		return len(pygame.sprite.spritecollide(self, self.level.water_list, False)) > 0
 

@@ -18,7 +18,6 @@ class Platform(pygame.sprite.Sprite):
 
 		self.rect = self.image.get_rect()
 
-
 class Level():
 	""" This is a generic super-class used to define a level.
 		Create a child class for each level with level-specific
@@ -31,6 +30,7 @@ class Level():
 		self.water_list = pygame.sprite.Group()
 		self.enemy_list = pygame.sprite.Group()
 		self.objective_list = objective.ObjectiveList()
+		self.lava_list = pygame.sprite.Group()
 		self.player = player
 
 		# How far this world has been scrolled left/right
@@ -43,18 +43,20 @@ class Level():
 		self.enemy_list.update()
 		self.water_list.update()
 		self.objective_list.update()
+		self.lava_list.update()
 
 	def draw(self, screen):
 		""" Draw everything on this level. """
 
 		# Draw the background
-		screen.fill(constants.BLUE)
+		screen.fill(constants.BACKGROUND)
 
 		# Draw all the sprite lists that we have
 		self.platform_list.draw(screen)
 		self.water_list.draw(screen)
 		self.objective_list.draw(screen)
 		self.enemy_list.draw(screen)
+		self.lava_list.draw(screen)
 
 	def shift_world(self, shift_x):
 		""" When the user moves left/right and we need to scroll
@@ -75,6 +77,9 @@ class Level():
 
 		for objective in self.objective_list:
 			objective.rect.x += shift_x
+
+		for lava in self.lava_list:
+			lava.rect.x += shift_x
 
 
 # Create platforms for the level
@@ -153,6 +158,9 @@ class LevelFromImage(Level):
 					elif (r, g, b) == constants.WATER:
 						# Ding, render wel.
 						container = self.water_list
+
+					elif (r, g, b) ==  constants.LAVA:
+						container = self.lava_list
 
 					else:
 						container = self.platform_list
