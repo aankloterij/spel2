@@ -203,7 +203,22 @@ class HetLevelVanOnsSpel(LevelFromImage):
 			9: 'asdf',
 			10: 'l;p;sd',
 			11: 'dfjkls',
+		}
 
+		# Zet objectives in het level
+		self.objective_list.populate_objectives(snippets)
+
+class TestLevel(LevelFromImage):
+	def __init__(self, player):
+		# Parse het level in de parent constructor
+		super().__init__(player, "res/leveltest.png")
+
+		snippets = {
+			0: '<html>',
+			1: '<body>',
+			2: 'linux > windows',
+			3: '</body>',
+			4: '</html>',
 		}
 
 		# Zet objectives in het level
