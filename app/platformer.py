@@ -16,7 +16,7 @@ http://programarcadegames.com/python_examples/sprite_sheets/
 import pygame
 
 from player import Player
-from level import Level, HetLevelVanOnsSpel, Level_01, Platform
+from level import Level, HetLevelVanOnsSpel, Level_01, Platform, TestLevel
 from hud import HUD, GameMenu
 import constants
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_CENTER
@@ -41,13 +41,16 @@ def main():
 
 	pygame.display.set_caption("Marcio")
 
-	pygame.display.set_icon(pygame.image.load("res/player.png"))
+	pygame.display.set_icon(pygame.image.load("res/code.png"))
 
 	# Create the player
 	player = Player()
 
 	# Create all the levels
 	level_list = []
+
+	# TODO remove this in 'prod'
+	level_list.append(TestLevel(player))
 	level_list.append(HetLevelVanOnsSpel(player))
 
 	# Set the current level
@@ -130,8 +133,6 @@ def main():
 			if diff != 0:
 				current_level.shift_world(diff)
 
-		dialog = None
-
 		# If the player hits lava,
 		# he will lose one heart and get teleported to the start of the level
 		if player.in_lava():
@@ -157,8 +158,6 @@ def main():
 		# TODO choose to accept the code by pressing `E`
 		touching_objectives = player.get_touching_objectives()
 		if len(touching_objectives) > 0:
-			dialog = "You just hit something :D"
-
 			objective = touching_objectives[0]
 
 			if player.next_objective != objective.index:
@@ -189,7 +188,7 @@ def main():
 		# ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
 		current_level.draw(screen)
 		active_sprite_list.draw(screen)
-		hud.draw(screen, dialog)
+		hud.draw(screen)
 
 		# ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
 
