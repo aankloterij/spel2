@@ -199,8 +199,10 @@ class HetLevelVanOnsSpel(LevelFromImage):
 			5: '<body>',
 			6: 'content avn je site',
 			7: '</body></html>',
+			8: 'test',
+			9: 'asdf',
+			10: 'l;p;sd',
 		}
 
 		# Zet objectives in het level
 		self.objective_list.populate_objectives(snippets)
-

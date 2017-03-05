@@ -1,7 +1,7 @@
 import pygame
 import constants
 import random
-from constants import BLOCKSIZE, FONT_NAME
+from constants import BLOCKSIZE
 from player import Entity
 
 class Objective(Entity):
@@ -10,7 +10,7 @@ class Objective(Entity):
 		super().__init__()
 		self.image = pygame.image.load("res/code.png").convert_alpha()
 		self.rect = pygame.Rect(x, y, BLOCKSIZE, BLOCKSIZE)
-		self.font = pygame.font.SysFont(FONT_NAME, 16)
+		self.font = pygame.font.Font('res/Pixeled.ttf', 16)
 		self.text = None # Dit wordt later ingesteld
 
 	def set_snippet(self, order, text):

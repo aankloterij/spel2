@@ -108,8 +108,6 @@ def main():
 		current_level.update()
 
 		# Keep the player in the center of the level
-		print(current_level.world_shift)
-
 		if player.rect.centerx != SCREEN_CENTER:
 			diff = SCREEN_CENTER - player.rect.centerx
 
@@ -129,22 +127,22 @@ def main():
 
 		# If the player hits lava,
 		# he will lose one heart and get teleported to the start of the level
-		if _player.in_lava():
+		if player.in_lava():
 
-			current_level.shift_world(-_player.rect.x)
+			current_level.shift_world(-current_level.world_shift)
 
 			# Teleport the player back to the starting position
 			# TODO Teleporting like this doesn't really work
-			_player.rect.x = 5 * 30
-			_player.rect.y = constants.SCREEN_HEIGHT - 5 * 30
+			player.rect.x = 5 * 30
+			player.rect.y = constants.SCREEN_HEIGHT - 5 * 30
 
 			# Reduce the amount of lives by one
-			_player.lives -= 1
+			player.lives -= 1
 
 			# If the player has 0 hearts left,
 			# exit with a message in the console
 			# TODO Make this a nice dialog for people who don't run the game from the console
-			if _player.lives == 0:
+			if player.lives == 0:
 				print("Game over, RIP")
 				return
 
