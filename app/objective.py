@@ -13,8 +13,8 @@ class Objective(Entity):
 		self.font = pygame.font.SysFont('Consolas', 16)
 		self.text = None # Dit wordt later ingesteld
 
-	def set_snippet(self, order, text):
-		self.order = order
+	def set_snippet(self, index, text):
+		self.index = index
 		self.text = self.font.render(text, 1, constants.OBJECTIVE_HELPER)
 
 class ObjectiveList(pygame.sprite.Group):
