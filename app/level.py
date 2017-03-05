@@ -127,7 +127,7 @@ class LevelFromImage(Level):
 
 		*__, width, height = level.getbbox()
 
-		self.level_limit = -BLOCKSIZE * width
+		self.level_limit = BLOCKSIZE * width
 
 		for py in range(height):
 
@@ -182,3 +182,25 @@ class LevelFromImage(Level):
 					# which causes the resulting "block" or platform thingy to be widened by BLOCKSIZE
 					consecutive_pixels += 1
 					continue
+
+
+class HetLevelVanOnsSpel(LevelFromImage):
+
+	def __init__(self, player):
+		# Parse het level in de parent constructor
+		super().__init__(player, "res/level1.png")
+
+		snippets = {
+			0: '<html>',
+			1: '<head>',
+			2: '<title>',
+			3: 'De titel van de site',
+			4: '</title>',
+			5: '<body>',
+			6: 'content avn je site',
+			7: '</body></html>',
+		}
+
+		# Zet objectives in het level
+		self.objective_list.populate_objectives(snippets)
+
