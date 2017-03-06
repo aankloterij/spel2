@@ -168,6 +168,7 @@ class LevelFromImage(Level):
 					elif (r, g, b) ==  constants.LAVA:
 						container = self.lava_list
 
+					# end list
 					elif (r, g, b) == constants.BLACK:
 						container = self.end_list
 

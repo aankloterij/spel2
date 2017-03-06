@@ -1,5 +1,6 @@
 import pygame
 import constants
+import pickle
 import random
 from constants import BLOCKSIZE
 from player import Entity
@@ -10,7 +11,7 @@ class Objective(Entity):
 		super().__init__()
 		self.image = pygame.image.load("res/code.png").convert_alpha()
 		self.rect = pygame.Rect(x, y, BLOCKSIZE, BLOCKSIZE)
-		self.font = pygame.font.SysFont('Consolas', 16)
+		self.font = pygame.font.SysFont(constants.FONT, 16)
 		self.text = None # Dit wordt later ingesteld
 
 	def set_snippet(self, index, text):
@@ -42,7 +43,7 @@ class ObjectiveList(pygame.sprite.Group):
 	def populate_objectives(self, snippets):
 		objectives = self.sprites()
 
-		self.snippets = snippets
+		self.snippets = snippets.copy()
 
 		if len(objectives) != len(snippets):
 			exit("Error: te veel/weinig objectives voor het level")

@@ -133,20 +133,32 @@ def main():
 			if diff != 0:
 				current_level.shift_world(diff)
 
+		if len(player.level.objective_list) == 0:
+			dialog = 'Picked up all objectives'
+		else:
+			if player.next_objective > 0:
+				dialog = player.level.objective_list.snippets[player.next_objective - 1]
+			else:
+				dialog = None
+
+
 		if player.hits_end():
 
-			# Increment the current level
-			current_level_no += 1
+			if len(player.level.objective_list) != 0:
+				dialog = 'You haven\'t picked up everything yet'
+			else:
+				# Increment the current level
+				current_level_no += 1
 
-			if current_level_no + 1 > len(level_list):
-				print('You sat through the entire game! Good job!')
-				exit(0)
+				if current_level_no + 1 > len(level_list):
+					print('You sat through the entire game! Good job!')
+					exit(0)
 
-			current_level = level_list[current_level_no]
+				current_level = level_list[current_level_no]
 
-			player.level = current_level
+				player.level = current_level
 
-			player.lives = constants.LIVES
+				player.lives = constants.LIVES
 
 
 		# If the player hits lava,
@@ -197,16 +209,6 @@ def main():
 				# Goed objective
 				objective.kill()
 				player.next_objective += 1
-
-
-		if len(player.level.objective_list) == 0:
-			dialog = 'Picked up all objectives'
-		else:
-			if len(player.level.objective_list.snippets) > 0:
-				dialog = player.level.objective_list.snippets[player.next_objective]
-			else:
-				dialog = None
-
 
 		# ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
 		current_level.draw(screen)

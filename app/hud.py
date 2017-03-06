@@ -10,7 +10,7 @@ class HUD:
 
 		self.heart_width, self.heart_height = self.heart_image.get_rect().size
 
-		self.font = pygame.font.Font('res/Pixeled.ttf', 16)
+		self.font = pygame.font.SysFont(constants.FONT, 32)
 
 		self.padding = 15
 		self.xleft = self.padding
