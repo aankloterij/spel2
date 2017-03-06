@@ -50,7 +50,7 @@ def main():
 	level_list = []
 
 	# TODO remove this in 'prod'
-	level_list.append(TestLevel(player))
+	# level_list.append(TestLevel(player))
 	level_list.append(HetLevelVanOnsSpel(player))
 
 	# Set the current level
