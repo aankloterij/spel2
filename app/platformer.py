@@ -30,7 +30,7 @@ def main():
 	# Play shitty annoying music
 	pygame.mixer.init()
 	pygame.mixer.music.load('res/music.mp3')
-	pygame.mixer.music.set_volume(0.1)
+	pygame.mixer.music.set_volume(0.01)
 	pygame.mixer.music.play(-1)
 
 	# Set the height and width of the screen
@@ -50,7 +50,7 @@ def main():
 	level_list = []
 
 	# TODO remove this in 'prod'
-	level_list.append(TestLevel(player))
+	# level_list.append(TestLevel(player))
 	level_list.append(HetLevelVanOnsSpel(player))
 
 	# Set the current level
@@ -81,7 +81,7 @@ def main():
 	menu = GameMenu(screen, ('PLAY', 'EXIT', 'RESTART'))
 	menu.run()
 
-	# -------- Main Program Loop -----------
+	# -------- Main Program Loop ----------- #
 	while not done:
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
