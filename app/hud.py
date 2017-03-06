@@ -21,8 +21,10 @@ class HUD:
 		lines = []
 		lines.append('Move: a/d or arrow keys')
 		lines.append('Jump: w, space or arrow up')
+		lines.append('Shoot: ctrl')
 		lines.append('Pick up all the code in the right order')
 		lines.append('and go to the end of the level.')
+		lines.append('You can shoot at code, but only crap code.')
 		lines.append('')
 		lines.append('Press any key to start..')
 
