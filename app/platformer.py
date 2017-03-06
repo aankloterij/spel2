@@ -77,6 +77,7 @@ def main():
 	controls_left = [pygame.K_LEFT, pygame.K_a]
 	controls_right = [pygame.K_RIGHT, pygame.K_d]
 	controls_up = [pygame.K_UP, pygame.K_w, pygame.K_SPACE]
+	controls_shoot = [pygame.K_LCTRL, pygame.K_RCTRL]
 
 	menu = GameMenu(screen, ('PLAY', 'EXIT', 'RESTART'))
 	menu.run()
@@ -111,6 +112,8 @@ def main():
 					player.go_right()
 				if event.key in controls_up:
 					player.jump()
+				if event.key in controls_shoot:
+					player.shoot()
 
 			if event.type == pygame.KEYUP:
 				if event.key in controls_left and player.change_x < 0:

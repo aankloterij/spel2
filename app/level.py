@@ -28,7 +28,7 @@ class Level():
 			platforms collide with the player. """
 		self.platform_list = pygame.sprite.Group()
 		self.water_list = pygame.sprite.Group()
-		self.enemy_list = pygame.sprite.Group()
+		self.bullet_list = pygame.sprite.Group()
 		self.objective_list = objective.ObjectiveList()
 		self.lava_list = pygame.sprite.Group()
 		self.end_list = pygame.sprite.Group()
@@ -41,7 +41,7 @@ class Level():
 	def update(self):
 		""" Update everything in this level."""
 		self.platform_list.update()
-		self.enemy_list.update()
+		self.bullet_list.update(self)
 		self.water_list.update()
 		self.objective_list.update()
 		self.lava_list.update()
@@ -57,7 +57,7 @@ class Level():
 		self.platform_list.draw(screen)
 		self.water_list.draw(screen)
 		self.objective_list.draw(screen)
-		self.enemy_list.draw(screen)
+		self.bullet_list.draw(screen)
 		self.lava_list.draw(screen)
 		self.end_list.draw(screen)
 
@@ -72,7 +72,7 @@ class Level():
 		for platform in self.platform_list:
 			platform.rect.x += shift_x
 
-		for enemy in self.enemy_list:
+		for enemy in self.bullet_list:
 			enemy.rect.x += shift_x
 
 		for water in self.water_list:

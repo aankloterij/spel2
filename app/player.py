@@ -10,6 +10,52 @@ class Entity(pygame.sprite.Sprite):
 		super().__init__()
 
 
+class Bullet(Entity):
+
+	def __init__(self):
+		# Call the parent's constructor
+		super().__init__()
+
+		width = height = constants.BLOCKSIZE
+		self.image = pygame.Surface([width, height])
+		self.image.fill(constants.BLACK)
+
+		self.rect = self.image.get_rect() # get rekt lol
+
+		self.velocity = 0
+		self.distance_traveled = 0
+	
+	def update(self, level):
+		""" Move the bullet """
+		self.distance_traveled += abs(self.velocity)
+		self.rect.x += self.velocity
+
+		if len(pygame.sprite.spritecollide(self, level.platform_list, False)) > 0:
+			self.kill()
+			return
+
+		objectives_hit = pygame.sprite.spritecollide(self, level.objective_list, False)
+
+		if len(objectives_hit) > 0:
+			if isinstance(objectives_hit[0].index, int):
+				level.player.die() or exit(1) # TODO: betere exit
+				self.kill()
+				return
+
+			else:
+				# Een niet bs-code geraakt.
+				# Laten we bs-code een niet-integer index geven.
+				objectives_hit[0].kill()
+				self.kill()
+				return
+
+		if self.distance_traveled > constants.BULLET_DISTANCE:
+			self.kill()
+			return
+
+
+
+
 class Player(Entity):
 	"""
 	This class represents the player that can be controlled.
@@ -22,13 +68,6 @@ class Player(Entity):
 		# Call the parent's constructor
 		super().__init__()
 
-		# Create an image of the block, and fill it with a color.
-		# This could also be an image loaded from the disk.
-		width = 200
-		height = 320
-		# self.image = pygame.Surface([width, height])
-		# self.image.fill(RED)
-
 		self.image = pygame.image.load('res/player.png').convert_alpha()
 
 		# Force schale the image to 1x2 blocks
@@ -40,6 +79,9 @@ class Player(Entity):
 		# Set speed vector of player
 		self.change_x = 0
 		self.change_y = 0
+
+		# Used to determine the direction the player should be facing
+		self.last_change_x = 0
 
 		# List of sprites we can bump against
 		self.level = None
@@ -140,11 +182,11 @@ class Player(Entity):
 	# Player-controlled movement:
 	def go_left(self):
 		""" Called when the user hits the left arrow. """
-		self.change_x = -6
+		self.change_x = self.last_change_x = -6
 
 	def go_right(self):
 		""" Called when the user hits the right arrow. """
-		self.change_x = 6
+		self.change_x = self.last_change_x = 6
 
 	def stop(self):
 		""" Called when the user lets off the keyboard. """
@@ -152,6 +194,9 @@ class Player(Entity):
 
 	def die(self):
 		self.level.shift_world(-self.level.world_shift)
+
+		# Haal alle kogels weg
+		self.level.bullet_list.empty()
 
 		# Teleport the player back to the starting position
 		# TODO Teleporting like this doesn't really work
@@ -168,3 +213,17 @@ class Player(Entity):
 			return False
 
 		return True
+
+	def shoot(self):
+		# Spawn a bullet at the player
+		bullet = Bullet()
+
+		# Give the bullet a velocity according to the direction of the player
+		# This wont work if the player is standing still, so we just move the
+		# bullet to the right in that case.
+		bullet.velocity = constants.BULLET_VELOCITY if self.last_change_x >= 0 else -constants.BULLET_VELOCITY
+		bullet.rect.y = self.rect.y
+		bullet.rect.x = self.rect.x
+
+		# Let the bullet appear in the level
+		self.level.bullet_list.add(bullet)
