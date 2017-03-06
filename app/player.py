@@ -150,8 +150,8 @@ class Player(Entity):
 		""" Called when the user lets off the keyboard. """
 		self.change_x = 0
 
-	def die(self, level):
-		level.shift_world(-level.world_shift)
+	def die(self):
+		self.level.shift_world(-self.level.world_shift)
 
 		# Teleport the player back to the starting position
 		# TODO Teleporting like this doesn't really work
@@ -163,7 +163,8 @@ class Player(Entity):
 
 		# If the player has 0 hearts left,
 		# exit with a message in the console
-		# TODO Make this a nice dialog for people who don't run the game from the console
 		if self.lives == 0:
 			print("Game over, RIP")
-			return
+			return False
+
+		return True

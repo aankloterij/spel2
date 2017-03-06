@@ -176,7 +176,9 @@ def main():
 		# he will lose one heart and get teleported to the start of the level
 		if player.in_lava():
 			# rip
-			player.die(current_level)
+			player.die() or exit(1)
+			# TODO: vervang exit(1) door iets dat een dialog laat zien
+
 
 		# TODO detect what block we just hit so we can show the code
 		# TODO choose to accept the code by pressing `E`
@@ -186,7 +188,8 @@ def main():
 
 			if player.next_objective != objective.index:
 				# Verkeerd objective
-				player.die(current_level)
+				player.die() or exit(1)
+				# TODO: vervang exit(1) door iets dat een dialog laat zien
 
 			else:
 				# Goed objective
