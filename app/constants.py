@@ -40,3 +40,14 @@ BULLET_DISTANCE = BLOCKSIZE * 20
 # Dit kan ervoor zorgen dat hij door dingen heen gaat.
 # 1 block/frame = BLOCKSIZE * 60 / 60
 BULLET_VELOCITY = BLOCKSIZE * 30 / 60 # 30 blocks/sec
+
+INSTRUCTIONS = [
+	'Move: a/d or arrow keys',
+	'Jump: w, space or arrow up',
+	'Shoot: ctrl',
+	'Pick up all the code in the right order',
+	'and go to the end of the level.',
+	'You can shoot at code, but only crap code.',
+	'',
+	'Press any key to start..',
+]
