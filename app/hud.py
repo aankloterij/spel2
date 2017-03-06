@@ -10,11 +10,17 @@ class HUD:
 
 		self.heart_width, self.heart_height = self.heart_image.get_rect().size
 
+		self.font = pygame.font.Font('res/Pixeled.ttf', 16)
+
 		self.padding = 15
 		self.xleft = self.padding
 		self.ybottom = constants.SCREEN_HEIGHT - self.heart_height - self.padding
 
-	def draw(self, surface):
+	def draw(self, surface, text=None):
+
+		if text != None:
+			text = self.font.render(str(text), False, constants.RED)
+			surface.blit(text, (self.padding, self.padding))
 
 		for i in range(self.p.lives):
 			x = self.xleft + (self.heart_width + self.padding) * i
@@ -45,7 +51,7 @@ class GameMenu():
 			height = label.get_rect().height
 
 			posx = (self.scr_width / 2) - (width / 2)
-			
+
 			# t_h: total height of text block
 			t_h = len(items) * height
 			posy = (self.scr_height / 2) - (t_h / 2) + (index * height)

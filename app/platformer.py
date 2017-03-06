@@ -30,7 +30,7 @@ def main():
 	# Play shitty annoying music
 	pygame.mixer.init()
 	pygame.mixer.music.load('res/music.mp3')
-	pygame.mixer.music.set_volume(0.1)
+	pygame.mixer.music.set_volume(0.01)
 	pygame.mixer.music.play(-1)
 
 	# Set the height and width of the screen
@@ -137,6 +137,11 @@ def main():
 
 			# Increment the current level
 			current_level_no += 1
+
+			if current_level_no + 1 > len(level_list):
+				print('You sat through the entire game! Good job!')
+				exit(0)
+
 			current_level = level_list[current_level_no]
 
 			player.level = current_level
@@ -188,18 +193,25 @@ def main():
 				if player.lives == 0:
 					print("Game over, RIP")
 					return
-
 			else:
 				# Goed objective
 				objective.kill()
 				player.next_objective += 1
-				# print(len(player.level.objective_list))
-				# print(player.next_objective)
+
+
+		if len(player.level.objective_list) == 0:
+			dialog = 'Picked up all objectives'
+		else:
+			if len(player.level.objective_list.snippets) > 0:
+				dialog = player.level.objective_list.snippets[player.next_objective]
+			else:
+				dialog = None
+
 
 		# ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
 		current_level.draw(screen)
 		active_sprite_list.draw(screen)
-		hud.draw(screen)
+		hud.draw(screen, dialog)
 
 		# ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
 
