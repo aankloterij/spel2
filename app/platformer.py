@@ -78,16 +78,11 @@ def main():
 	controls_right = [pygame.K_RIGHT, pygame.K_d]
 	controls_up = [pygame.K_UP, pygame.K_w, pygame.K_SPACE]
 
-	shown_menu = False
+	menu = GameMenu(screen, ('PLAY', 'EXIT', 'RESTART'))
+	menu.run()
 
 	# -------- Main Program Loop -----------
 	while not done:
-
-		if not shown_menu:
-			menu = GameMenu(screen, ('PLAY', 'EXIT', 'RESTART'))
-			menu.run()
-			shown_menu = True
-
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT:
 				done = True
