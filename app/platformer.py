@@ -88,6 +88,10 @@ def main():
 				done = True
 
 			if event.type == pygame.KEYDOWN:
+				if hud.show_controls:
+					# Haal begin dialog weg, met uitleg.
+					hud.show_controls = False
+
 				if event.key == pygame.K_ESCAPE:
 					menu = GameMenu(screen, ('RESUME', 'EXIT', 'RESTART'))
 					menu.run()
@@ -171,23 +175,8 @@ def main():
 		# If the player hits lava,
 		# he will lose one heart and get teleported to the start of the level
 		if player.in_lava():
-
-			current_level.shift_world(-current_level.world_shift)
-
-			# Teleport the player back to the starting position
-			# TODO Teleporting like this doesn't really work
-			player.rect.x = 5 * 30
-			player.rect.y = constants.SCREEN_HEIGHT - 5 * 30
-
-			# Reduce the amount of lives by one
-			player.lives -= 1
-
-			# If the player has 0 hearts left,
-			# exit with a message in the console
-			# TODO Make this a nice dialog for people who don't run the game from the console
-			if player.lives == 0:
-				print("Game over, RIP")
-				return
+			# rip
+			player.die(current_level)
 
 		# TODO detect what block we just hit so we can show the code
 		# TODO choose to accept the code by pressing `E`
@@ -197,21 +186,8 @@ def main():
 
 			if player.next_objective != objective.index:
 				# Verkeerd objective
-				current_level.shift_world(-current_level.world_shift)
+				player.die(current_level)
 
-				# Teleport the player back to the starting position
-				player.rect.x = 5 * 30
-				player.rect.y = constants.SCREEN_HEIGHT - 5 * 30
-
-				# Reduce the amount of lives by one
-				player.lives -= 1
-
-				# If the player has 0 hearts left,
-				# exit with a message in the console
-				# TODO Make this a nice dialog for people who don't run the game from the console
-				if player.lives == 0:
-					print("Game over, RIP")
-					return
 			else:
 				# Goed objective
 				objective.kill()

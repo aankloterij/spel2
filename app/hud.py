@@ -15,6 +15,23 @@ class HUD:
 		self.padding = 15
 		self.xleft = self.padding
 		self.ybottom = constants.SCREEN_HEIGHT - self.heart_height - self.padding
+		self.show_controls = True
+
+		# Dialog aan het begin van het spel, met control uitleg
+		lines = []
+		lines.append('Move: a/d or arrow keys')
+		lines.append('Jump: w, space or arrow up')
+		lines.append('Pick up all the code in the right order')
+		lines.append('and go to the end of the level.')
+		lines.append('')
+		lines.append('Press any key to start..')
+
+		line_graphics = []
+
+		for line in lines:
+			line_graphics.append(self.font.render(line, False, constants.WHITE))
+
+		self.control_text = line_graphics
 
 	def draw(self, surface, text=None, font=False):
 
@@ -32,6 +49,15 @@ class HUD:
 			y = self.ybottom
 
 			surface.blit(self.heart_image, (x, y))
+
+		if self.show_controls:
+			y = 100 # 100 px van bovenkant scherm
+
+			for line in self.control_text:
+				x = constants.SCREEN_WIDTH / 2 - line.get_width() / 2
+				surface.blit(line, (x, y))
+				y += line.get_height() + self.padding
+
 
 # Danku https://nebelprog.wordpress.com/2013/08/14/create-a-simple-game-menu-with-pygame-pt-1-writing-the-menu-options-to-the-screen/
 
