@@ -219,8 +219,6 @@ class Player(Entity):
 		bullet = Bullet()
 
 		# Give the bullet a velocity according to the direction of the player
-		# This wont work if the player is standing still, so we just move the
-		# bullet to the right in that case.
 		bullet.velocity = constants.BULLET_VELOCITY if self.last_change_x >= 0 else -constants.BULLET_VELOCITY
 		bullet.rect.y = self.rect.y
 		bullet.rect.x = self.rect.x
