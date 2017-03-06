@@ -33,6 +33,7 @@ def main():
 	pygame.mixer.music.set_volume(0.01)
 	pygame.mixer.music.play(-1)
 
+
 	# Set the height and width of the screen
 	size = [SCREEN_WIDTH, SCREEN_HEIGHT]
 	screen = pygame.display.set_mode(size)
