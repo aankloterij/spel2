@@ -30,9 +30,8 @@ def main():
 	# Play shitty annoying music
 	pygame.mixer.init()
 	pygame.mixer.music.load('res/music.mp3')
-	pygame.mixer.music.set_volume(0.01)
+	pygame.mixer.music.set_volume(0.1)
 	pygame.mixer.music.play(-1)
-
 
 	# Set the height and width of the screen
 	size = [SCREEN_WIDTH, SCREEN_HEIGHT]
@@ -51,7 +50,7 @@ def main():
 	level_list = []
 
 	# TODO remove this in 'prod'
-	# level_list.append(TestLevel(player))
+	level_list.append(TestLevel(player))
 	level_list.append(HetLevelVanOnsSpel(player))
 
 	# Set the current level
@@ -134,7 +133,10 @@ def main():
 			if diff != 0:
 				current_level.shift_world(diff)
 
+		usenicefont = False
+
 		if len(player.level.objective_list) == 0:
+			usenicefont = True
 			dialog = 'Picked up all objectives'
 		else:
 			if player.next_objective > 0:
@@ -146,7 +148,8 @@ def main():
 		if player.hits_end():
 
 			if len(player.level.objective_list) != 0:
-				dialog = 'You haven\'t picked up everything yet'
+				usenicefont = True
+				dialog = 'Not done yet!'
 			else:
 				# Increment the current level
 				current_level_no += 1
@@ -214,7 +217,8 @@ def main():
 		# ALL CODE TO DRAW SHOULD GO BELOW THIS COMMENT
 		current_level.draw(screen)
 		active_sprite_list.draw(screen)
-		hud.draw(screen, dialog)
+		hud.draw(screen, dialog, usenicefont)
+
 
 		# ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
 
@@ -234,14 +238,8 @@ def restart_program():
 	"""
 	import os
 	import sys
-	import psutil
 
-	p = psutil.Process(os.getpid())
-	for handler in p.get_open_files() + p.connections():
-		os.close(handler.fd)
-
-	python = sys.executable
-	os.execl(python, python, *sys.argv)
+	os.execl(sys.executable, sys.executable, *sys.argv)
 
 if __name__ == "__main__":
 	main()

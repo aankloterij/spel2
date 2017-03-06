@@ -16,10 +16,15 @@ class HUD:
 		self.xleft = self.padding
 		self.ybottom = constants.SCREEN_HEIGHT - self.heart_height - self.padding
 
-	def draw(self, surface, text=None):
+	def draw(self, surface, text=None, font=False):
+
+		if font:
+			_font = pygame.font.Font('res/Pixeled.ttf', 16)
+		else:
+			_font = pygame.font.SysFont('Courier New', 32)
 
 		if text != None:
-			text = self.font.render(str(text), False, constants.RED)
+			text = _font.render(str(text), False, constants.WHITE)
 			surface.blit(text, (self.padding, self.padding))
 
 		for i in range(self.p.lives):
@@ -96,14 +101,9 @@ class GameMenu():
 
 						elif self.sprites.index(clicked_sprites[0]) == 2:
 							# TODO psutil not found
-							import os, sys, psutil
+								import os, sys
 
-							p = psutil.Process(os.getpid())
-							for handler in p.get_open_files() + p.connections():
-								os.close(handler.fd)
-
-							python = sys.executable
-							os.execl(python, python, *sys.argv)
+								os.execl(sys.executable, sys.executable, *sys.argv)
 
 			self.sprites = []
 
