@@ -53,7 +53,7 @@ class Bullet(Entity):
 				objectives_hit[0].kill()
 
 				# Marc wil een extra leven erbij als je code wegschiet
-				self.lives += 1
+				level.player.lives += 1
 
 				self.kill()
 				return
