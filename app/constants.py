@@ -53,3 +53,12 @@ INSTRUCTIONS = [
 	'',
 	'Press any key to start...',
 ]
+
+LAVA_WARNING_DISTANCE = BLOCKSIZE * 10
+
+LAVA_WARNING = [
+	'Be careful!!',
+	'There is lava nearby. Don\'t touch it.',
+	'',
+	'Press ENTER to continue..',
+]

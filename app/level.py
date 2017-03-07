@@ -87,6 +87,8 @@ class Level():
 		for end in self.end_list:
 			end.rect.x += shift_x
 
+		if hasattr(self, 'lava_x'): self.lava_x += shift_x
+
 
 # Create platforms for the level
 class Level_01(Level):
@@ -218,6 +220,10 @@ class HetLevelVanOnsSpel(LevelFromImage):
 
 		# Zet objectives in het level
 		self.objective_list.populate_objectives(snippets)
+
+		# Fix coords van 1e lava ding dat in het level is
+		if len(self.lava_list.sprites()) > 0:
+			self.lava_x = self.lava_list.sprites()[0].rect.x
 
 class TestLevel(LevelFromImage):
 	def __init__(self, player):

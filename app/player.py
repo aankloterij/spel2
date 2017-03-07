@@ -101,6 +101,9 @@ class Player(Entity):
 		# Next objective
 		self.next_objective = 0
 
+		# Lava warning
+		self.has_seen_lava_warning = False
+
 	def update(self):
 		""" Move the player. """
 
@@ -145,6 +148,8 @@ class Player(Entity):
 
 			# Stop our vertical movement
 			self.change_y = 0
+
+		if not self.has_seen_lava_warning: self.check_lava_warning()
 
 	def calc_grav(self):
 		""" Calculate effect of gravity. """
@@ -235,3 +240,31 @@ class Player(Entity):
 
 	def can_finish_level(self):
 		return self.next_objective > self.level.objective_list.highest
+
+
+	def check_lava_warning(self):
+
+		if not hasattr(self.level, 'lava_x'):
+			print('level heeft geen lava')
+			self.has_seen_lava_warning = True
+			return
+
+		if self.rect.x >= self.level.lava_x - constants.LAVA_WARNING_DISTANCE:
+
+			print('show info')
+
+			from hud import Dialog
+			dialog = Dialog()
+
+			font = pygame.font.Font('res/Pixeled.ttf', 16)
+
+			lines = []
+
+			for line in constants.LAVA_WARNING:
+				lines.append(font.render(line, False, constants.RED))
+
+			dialog.texts = lines
+			dialog.onkeydown = lambda dialog, event: event.key != pygame.K_RETURN or dialog.close()
+			dialog.show()
+
+			self.has_seen_lava_warning = True

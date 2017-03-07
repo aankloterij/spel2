@@ -143,7 +143,7 @@ class Dialog:
 		self.clock = pygame.time.Clock()
 
 		self.dialogloop = False
-		self.sprites = []
+		self.texts = []
 
 		self.background_color = constants.RED
 
@@ -177,5 +177,11 @@ class Dialog:
 		self.dialogloop = False
 
 	def render(self):
-		self.image.fill(constants.RED)
+		self.image.fill(constants.BLACK)
 		self.screen.blit(self.image, self.rect)
+
+		x = y = self.margin + 15
+
+		for text in self.texts:
+			self.screen.blit(text, (x, y))
+			y += text.get_height() + 15
