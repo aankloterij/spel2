@@ -17,18 +17,25 @@ class Bullet(Entity):
 		super().__init__()
 
 		width = height = constants.BLOCKSIZE
-		self.image = pygame.Surface([width, height])
-		self.image.fill(constants.BLACK)
+		self.image = pygame.image.load('res/bullet.png').convert_alpha()
+		# self.image = pygame.Surface([width, height])
+		# self.image.fill(constants.BLACK)
 
 		self.rect = self.image.get_rect() # get rekt lol
 
 		self.velocity = 0
 		self.distance_traveled = 0
-	
+
+		self.flipped = False
+
 	def update(self, level):
 		""" Move the bullet """
 		self.distance_traveled += abs(self.velocity)
 		self.rect.x += self.velocity
+
+		if self.velocity < 0 and not self.flipped:
+			self.image = pygame.transform.flip(self.image, True, False)
+			self.flipped = True
 
 		if len(pygame.sprite.spritecollide(self, level.platform_list, False)) > 0:
 			self.kill()

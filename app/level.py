@@ -206,14 +206,14 @@ class HetLevelVanOnsSpel(LevelFromImage):
 			2: '<title>',
 			3: 'De titel van de site',
 			4: '</title>',
-			5: '<body>',
-			6: 'content avn je site',
-			7: '</body></html>',
-			8: 'test',
-			9: 'asdf',
-			10: 'l;p;sd',
-			11: 'dfjkls',
-			12: 'asfdsd',
+			5: '</head>',
+			6: '<body>',
+			7: 'Content van je site',
+			8: '</body>',
+			9: '</html>',
+			'a': '<http>',
+			'b': '<title/>',
+			'c': '/<html>',
 		}
 
 		# Zet objectives in het level

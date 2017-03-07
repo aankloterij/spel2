@@ -11,6 +11,7 @@ class HUD:
 		self.heart_width, self.heart_height = self.heart_image.get_rect().size
 
 		self.font = pygame.font.SysFont(constants.FONT, 32)
+		self.nicefont = pygame.font.Font('res/Pixeled.ttf', 16)
 
 		self.padding = 15
 		self.xleft = self.padding
@@ -21,7 +22,7 @@ class HUD:
 
 		# Dialog aan het begin van het spel, met control uitleg
 		for line in constants.INSTRUCTIONS:
-			self.instruction_lines.append(self.font.render(line, False, constants.WHITE))
+			self.instruction_lines.append(self.nicefont.render(line, False, constants.RED))
 
 
 	def draw(self, surface, text=None, font=False):
@@ -143,7 +144,7 @@ class Dialog:
 
 		self.dialogloop = False
 		self.sprites = []
-		
+
 		self.background_color = constants.RED
 
 		self.image = pygame.Surface([constants.SCREEN_WIDTH - 2 * self.margin, constants.SCREEN_HEIGHT - 2 * self.margin])

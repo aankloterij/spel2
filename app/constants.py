@@ -21,7 +21,7 @@ LAVA = (241, 95, 34)
 
 OBJECTIVE_HELPER = (195, 195, 80)
 
-LIVES = 5
+LIVES = 10
 
 # Screen dimensions
 SCREEN_WIDTH = 800
@@ -44,12 +44,12 @@ BULLET_VELOCITY = BLOCKSIZE * 30 / 60 # 30 blocks/sec
 # Let op dat je niet te veel ruimte gebruikt.. text is groot.
 # Maak desnoods de fontsize kleiner in hud.py
 INSTRUCTIONS = [
-	'Move: a/d or arrow keys',
-	'Jump: w, space or arrow up',
-	'Shoot: ctrl',
-	'Pick up all the code in the right order',
+	'Move: A, D or arrow keys',
+	'Jump: W, space or arrow up',
+	'Shoot: Ctrl',
+	'Pick up all the code in the correct order',
 	'and go to the end of the level.',
-	'You can shoot at code, but only crap code.',
+	'You can kill the bad code by shooting at it',
 	'',
-	'Press any key to start..',
+	'Press any key to start...',
 ]
