@@ -131,3 +131,50 @@ class GameMenu():
 				self.sprites.append(self.screen.blit(label, (posx, posy)))
 
 			pygame.display.flip()
+
+class Dialog:
+	def __init__(self):
+		self.screen = pygame.display.get_surface()
+		self.width = self.screen.get_rect().width
+		self.height = self.screen.get_rect().height
+
+		self.margin = 100 # ruimte tussen de rand van het scherm en dialog
+		self.clock = pygame.time.Clock()
+
+		self.dialogloop = False
+		self.sprites = []
+		
+		self.background_color = constants.RED
+
+		self.image = pygame.Surface([constants.SCREEN_WIDTH - 2 * self.margin, constants.SCREEN_HEIGHT - 2 * self.margin])
+		# self.image = pygame.image.load("res/jan.gif").convert_alpha()
+		self.rect = self.image.get_rect()
+		self.rect.x = self.rect.y = self.margin
+		self.image.fill(self.background_color)
+
+	def show(self):
+
+		self.dialogloop = True
+
+		while self.dialogloop:
+			self.clock.tick(60)
+
+			for event in pygame.event.get():
+				if event.type == pygame.KEYDOWN:
+					self.onkeydown(self, event)
+
+			self.render()
+			pygame.display.flip()
+
+	@staticmethod
+	def onkeydown(dialog, event):
+		if event.key == pygame.K_ESCAPE:
+			dialog.close()
+
+
+	def close(self):
+		self.dialogloop = False
+
+	def render(self):
+		self.image.fill(constants.RED)
+		self.screen.blit(self.image, self.rect)

@@ -17,9 +17,10 @@ import pygame
 
 from player import Player
 from level import Level, HetLevelVanOnsSpel, Level_01, Platform, TestLevel
-from hud import HUD, GameMenu
+from hud import HUD, GameMenu, Dialog
 import constants
 from constants import SCREEN_WIDTH, SCREEN_HEIGHT, SCREEN_CENTER
+
 
 def main():
 	""" Main Program """
@@ -35,7 +36,9 @@ def main():
 
 	# Set the height and width of the screen
 	size = [SCREEN_WIDTH, SCREEN_HEIGHT]
-	screen = pygame.display.set_mode(size)
+	pygame.display.set_mode(size)
+
+	screen = pygame.display.get_surface()
 
 	flags = screen.get_flags()
 
@@ -82,6 +85,19 @@ def main():
 	menu = GameMenu(screen, ('PLAY', 'EXIT', 'RESTART'))
 	menu.run()
 
+	# Dialog test
+	dia = Dialog()
+
+	# Event handler voor onkeydown
+	dia.onkeydown = lambda dialog, event: event.key != pygame.K_RETURN or dialog.close()
+
+	# Dit kan ook
+	def dialog_onkeydown(dialog, event):
+		if event.key == pygame.K_RETURN: dialog.close()
+
+	dia.onkeydown = dialog_onkeydown
+
+
 	# -------- Main Program Loop ----------- #
 	while not done:
 		for event in pygame.event.get():
@@ -105,6 +121,10 @@ def main():
 					else:
 						flags ^= pygame.FULLSCREEN
 						pygame.display.set_mode(size, flags)
+
+				# Dialog test
+				if event.key == pygame.K_F10:
+					dia.show()
 
 				if event.key in controls_left:
 					player.go_left()
