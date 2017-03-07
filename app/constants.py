@@ -47,6 +47,7 @@ INSTRUCTIONS = [
 	'Move: A, D or arrow keys',
 	'Jump: W, space or arrow up',
 	'Shoot: Ctrl',
+	'Pause: Esc',
 	'Pick up all the code in the correct order',
 	'and go to the end of the level.',
 	'You can kill the bad code by shooting at it',
