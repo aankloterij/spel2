@@ -1,7 +1,6 @@
 import pygame
 
 import constants
-from constants import BULLET_VELOCITY as bv
 
 class Entity(pygame.sprite.Sprite):
 	"""
@@ -221,6 +220,9 @@ class Player(Entity):
 		return True
 
 	def shoot(self):
+
+		from constants import BULLET_VELOCITY as bv
+
 		# Spawn a bullet at the player
 		bullet = Bullet(-bv if self.last_change_x < 0 else bv, (self.rect.x, self.rect.y))
 
