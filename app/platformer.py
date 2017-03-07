@@ -54,8 +54,8 @@ def main():
 	level_list = []
 
 	# TODO remove this in 'prod'
-	# level_list.append(TestLevel(player))
-	level_list.append(HetLevelVanOnsSpel(player))
+	level_list.append(TestLevel(player))
+	# level_list.append(HetLevelVanOnsSpel(player))
 
 	# Set the current level
 	current_level_no = 0
@@ -86,17 +86,18 @@ def main():
 	menu = GameMenu(screen, ('PLAY', 'EXIT', 'RESTART'))
 	menu.run()
 
-	# Dialog test
-	dia = Dialog()
+	# Dialogs
+	gg = Dialog()
+	gg.set_text(['Game over!!', '', 'Press any key to quit'])
+	gg.onkeydown = lambda dialog, event: exit(1)
 
-	# Event handler voor onkeydown
-	dia.onkeydown = lambda dialog, event: event.key != pygame.K_RETURN or dialog.close()
+	win = Dialog()
+	win.set_text(['You won the game!!! :D', '', 'Press any key to quit'])
+	win.onkeydown = lambda dialog, event: exit(1)
 
-	# Dit kan ook
-	def dialog_onkeydown(dialog, event):
-		if event.key == pygame.K_RETURN: dialog.close()
-
-	dia.onkeydown = dialog_onkeydown
+	not_done = Dialog()
+	not_done.set_text(['You haven\'t collected all of', 'the code yet. Come back later.', '', 'Press any key to continue'])
+	not_done.onkeydown = lambda dialog, event: dialog.close()
 
 	timerfont = pygame.font.Font('res/Pixeled.ttf', 12)
 
@@ -123,10 +124,6 @@ def main():
 					else:
 						flags ^= pygame.FULLSCREEN
 						pygame.display.set_mode(size, flags)
-
-				# Dialog test
-				if event.key == pygame.K_F10:
-					dia.show()
 
 				if event.key in controls_left:
 					player.go_left()
@@ -179,15 +176,17 @@ def main():
 		if player.hits_end():
 
 			if not player.can_finish_level():
-				usenicefont = True
-				dialog = 'Not done yet!'
+				# usenicefont = True
+				# dialog = 'Not done yet!'
+
+				not_done.show()
+
 			else:
 				# Increment the current level
 				current_level_no += 1
 
 				if current_level_no + 1 > len(level_list):
-					print('You sat through the entire game! Good job!')
-					exit(0)
+					win.show()
 
 				current_level = level_list[current_level_no]
 
@@ -204,7 +203,7 @@ def main():
 		# he will lose one heart and get teleported to the start of the level
 		if player.in_lava():
 			# rip
-			player.die() or exit(1)
+			player.die() or gg.show()
 			# TODO: vervang exit(1) door iets dat een dialog laat zien
 
 
@@ -216,7 +215,7 @@ def main():
 
 			if player.next_objective != objective.index:
 				# Verkeerd objective
-				player.die() or exit(1)
+				player.die() or gg.show()
 				# TODO: vervang exit(1) door iets dat een dialog laat zien
 
 			else:

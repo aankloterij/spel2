@@ -43,7 +43,14 @@ class Bullet(Entity):
 
 		if len(objectives_hit) > 0:
 			if isinstance(objectives_hit[0].index, int):
-				level.player.die() or exit(1) # TODO: betere exit
+
+				from hud import Dialog
+
+				gg = Dialog()
+				gg.set_text(['Game over!!', '', 'Press any key to quit'])
+				gg.onkeydown = lambda dialog, event: exit(1)
+
+				level.player.die() or gg.show()
 				self.kill()
 				return
 
@@ -244,7 +251,7 @@ class Player(Entity):
 
 	def check_lava_warning(self):
 
-		if not hasattr(self.level, 'lava_x'):
+		if self.level.lava_x == None:
 			print('level heeft geen lava')
 			self.has_seen_lava_warning = True
 			return
@@ -255,15 +262,7 @@ class Player(Entity):
 
 			from hud import Dialog
 			dialog = Dialog()
-
-			font = pygame.font.Font('res/Pixeled.ttf', 16)
-
-			lines = []
-
-			for line in constants.LAVA_WARNING:
-				lines.append(font.render(line, False, constants.RED))
-
-			dialog.texts = lines
+			dialog.set_text(constants.LAVA_WARNING)
 			dialog.onkeydown = lambda dialog, event: event.key != pygame.K_RETURN or dialog.close()
 			dialog.show()
 

@@ -34,6 +34,9 @@ class Level():
 		self.end_list = pygame.sprite.Group()
 		self.player = player
 
+		# For lava warnings
+		self.lava_x = None
+
 		# How far this world has been scrolled left/right
 		self.world_shift = 0
 
@@ -195,6 +198,10 @@ class LevelFromImage(Level):
 					consecutive_pixels += 1
 					continue
 
+		# Fix coords van 1e lava ding dat in het level is
+		if len(self.lava_list.sprites()) > 0:
+			self.lava_x = self.lava_list.sprites()[0].rect.x
+
 
 class HetLevelVanOnsSpel(LevelFromImage):
 
@@ -220,10 +227,6 @@ class HetLevelVanOnsSpel(LevelFromImage):
 
 		# Zet objectives in het level
 		self.objective_list.populate_objectives(snippets)
-
-		# Fix coords van 1e lava ding dat in het level is
-		if len(self.lava_list.sprites()) > 0:
-			self.lava_x = self.lava_list.sprites()[0].rect.x
 
 class TestLevel(LevelFromImage):
 	def __init__(self, player):

@@ -23,7 +23,7 @@ TPS = 60
 
 OBJECTIVE_HELPER = (195, 195, 80)
 
-LIVES = 10
+LIVES = 2
 
 # Screen dimensions
 SCREEN_WIDTH = 800

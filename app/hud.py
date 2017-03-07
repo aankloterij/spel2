@@ -185,3 +185,10 @@ class Dialog:
 		for text in self.texts:
 			self.screen.blit(text, (x, y))
 			y += text.get_height() + 15
+
+	def set_text(self, lines):
+
+		font = pygame.font.Font('res/Pixeled.ttf', 16)
+
+		for line in lines:
+			self.texts.append(font.render(line, False, constants.RED))
