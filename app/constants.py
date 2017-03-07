@@ -59,7 +59,7 @@ LAVA_WARNING_DISTANCE = BLOCKSIZE * 10
 
 LAVA_WARNING = [
 	'Be careful!!',
-	'There is lava nearby. Don\'t touch it.',
+	'There is lava nearby. Do not touch it!',
 	'',
 	'Press ENTER to continue..',
 ]

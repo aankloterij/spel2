@@ -175,11 +175,6 @@ def main():
 			else:
 				dialog = None
 
-		if 5000 < abs(current_level.world_shift) and abs(current_level.world_shift) < 6000:
-			usenicefont = True
-			dialog = 'Watch out for the lava!'
-
-
 		if player.hits_end():
 
 			if not player.can_finish_level():
