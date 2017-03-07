@@ -219,9 +219,16 @@ class Player(Entity):
 		bullet = Bullet()
 
 		# Give the bullet a velocity according to the direction of the player
-		bullet.velocity = constants.BULLET_VELOCITY if self.last_change_x >= 0 else -constants.BULLET_VELOCITY
+		bullet.velocity = constants.BULLET_VELOCITY
+
+		# Als we naar links kijken, laat kogel naar links gaan.
+		if self.last_change_x < 0: bullet.velocity *= -1
+
 		bullet.rect.y = self.rect.y
 		bullet.rect.x = self.rect.x
 
 		# Let the bullet appear in the level
 		self.level.bullet_list.add(bullet)
+
+	def can_finish_level(self):
+		return self.next_objective > self.level.objective_list.highest

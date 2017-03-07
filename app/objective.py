@@ -20,6 +20,10 @@ class Objective(Entity):
 
 class ObjectiveList(pygame.sprite.Group):
 
+	def __init__(self):
+		super().__init__()
+		self.highest = 0
+
 	def draw(self, surface):
 
 		"""draw all sprites onto the surface
@@ -50,6 +54,8 @@ class ObjectiveList(pygame.sprite.Group):
 
 		for objective in objectives:
 			index, snippet = random.choice(list(snippets.items()))
+
+			if isinstance(index, int): self.highest = max(self.highest, index)
 
 			objective.set_snippet(index, snippet)
 			del snippets[index]

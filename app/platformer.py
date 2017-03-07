@@ -50,8 +50,8 @@ def main():
 	level_list = []
 
 	# TODO remove this in 'prod'
-	# level_list.append(TestLevel(player))
-	level_list.append(HetLevelVanOnsSpel(player))
+	level_list.append(TestLevel(player))
+	# level_list.append(HetLevelVanOnsSpel(player))
 
 	# Set the current level
 	current_level_no = 0
@@ -145,7 +145,7 @@ def main():
 
 		usenicefont = False
 
-		if len(player.level.objective_list) == 0:
+		if player.can_finish_level():
 			usenicefont = True
 			dialog = 'Picked up all objectives'
 		else:
@@ -157,7 +157,7 @@ def main():
 
 		if player.hits_end():
 
-			if len(player.level.objective_list) != 0:
+			if not player.can_finish_level():
 				usenicefont = True
 				dialog = 'Not done yet!'
 			else:
@@ -169,6 +169,10 @@ def main():
 					exit(0)
 
 				current_level = level_list[current_level_no]
+
+				# Misschien moeten we hier ook die Bullets resetten..
+				# maar fck dat want we hebben toch maar 1 level. deze code
+				# wordt nooit uitgevoerd lol
 
 				player.level = current_level
 

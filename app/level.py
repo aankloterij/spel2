@@ -227,9 +227,9 @@ class TestLevel(LevelFromImage):
 		snippets = {
 			0: '<html>',
 			1: '<body>',
-			2: 'linux > windows',
-			3: '</body>',
-			4: '</html>',
+			2: '</body>',
+			3: '</html>',
+			'bullshit code 1': 'windows > linux'
 		}
 
 		# Zet objectives in het level

@@ -34,13 +34,16 @@ BLOCKSIZE = SCREEN_HEIGHT / 20 # 20 blocks hoog
 # In het verslag hadden we gezegd dat een kogel 3x de breedte van de speler ging
 # Dit is pittig weinig.
 # Daarom hier BULLET_DISTANCE, zodat we de maximale afstand kunnen veranderen
-BULLET_DISTANCE = BLOCKSIZE * 20
+BULLET_DISTANCE = SCREEN_CENTER # zodat je niet verder kan schieten dan dat je kan zien.
+# we kunnen bullet distance ook groter maken, zodat marc lekker gaat ragen lol
 
 # Zorg dat bullet velocity NOOIT groter wordt dan 1 block/frame.
 # Dit kan ervoor zorgen dat hij door dingen heen gaat.
 # 1 block/frame = BLOCKSIZE * 60 / 60
 BULLET_VELOCITY = BLOCKSIZE * 30 / 60 # 30 blocks/sec
 
+# Let op dat je niet te veel ruimte gebruikt.. text is groot.
+# Maak desnoods de fontsize kleiner in hud.py
 INSTRUCTIONS = [
 	'Move: a/d or arrow keys',
 	'Jump: w, space or arrow up',
