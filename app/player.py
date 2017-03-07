@@ -1,6 +1,7 @@
 import pygame
 
 import constants
+from constants import BULLET_VELOCITY as bv
 
 class Entity(pygame.sprite.Sprite):
 	"""
@@ -12,7 +13,7 @@ class Entity(pygame.sprite.Sprite):
 
 class Bullet(Entity):
 
-	def __init__(self):
+	def __init__(self, velocity, coords):
 		# Call the parent's constructor
 		super().__init__()
 
@@ -22,20 +23,18 @@ class Bullet(Entity):
 		# self.image.fill(constants.BLACK)
 
 		self.rect = self.image.get_rect() # get rekt lol
+		self.rect.x, self.rect.y = coords
 
-		self.velocity = 0
+		self.velocity = velocity
 		self.distance_traveled = 0
 
-		self.flipped = False
+		if self.velocity < 0:
+			self.image = pygame.transform.flip(self.image, True, False)
 
 	def update(self, level):
 		""" Move the bullet """
 		self.distance_traveled += abs(self.velocity)
 		self.rect.x += self.velocity
-
-		if self.velocity < 0 and not self.flipped:
-			self.image = pygame.transform.flip(self.image, True, False)
-			self.flipped = True
 
 		if len(pygame.sprite.spritecollide(self, level.platform_list, False)) > 0:
 			self.kill()
@@ -223,16 +222,7 @@ class Player(Entity):
 
 	def shoot(self):
 		# Spawn a bullet at the player
-		bullet = Bullet()
-
-		# Give the bullet a velocity according to the direction of the player
-		bullet.velocity = constants.BULLET_VELOCITY
-
-		# Als we naar links kijken, laat kogel naar links gaan.
-		if self.last_change_x < 0: bullet.velocity *= -1
-
-		bullet.rect.y = self.rect.y
-		bullet.rect.x = self.rect.x
+		bullet = Bullet(-bv if self.last_change_x < 0 else bv, (self.rect.x, self.rect.y))
 
 		# Let the bullet appear in the level
 		self.level.bullet_list.add(bullet)
