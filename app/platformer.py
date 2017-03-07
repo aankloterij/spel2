@@ -175,6 +175,10 @@ def main():
 			else:
 				dialog = None
 
+		if 5000 < abs(current_level.world_shift) and abs(current_level.world_shift) < 6000:
+			usenicefont = True
+			dialog = 'Watch out for the lava!'
+
 
 		if player.hits_end():
 
@@ -243,7 +247,7 @@ def main():
 	pygame.quit()
 
 def restart_program():
-	"""Restarts the current program, with file objects and descriptors
+	"""Restarts the current program, without file objects and descriptors
 	   cleanup
 	"""
 	import os
