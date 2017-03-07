@@ -98,6 +98,7 @@ def main():
 
 	dia.onkeydown = dialog_onkeydown
 
+	timerfont = pygame.font.Font('res/Pixeled.ttf', 12)
 
 	# -------- Main Program Loop ----------- #
 	while not done:
@@ -228,11 +229,14 @@ def main():
 		active_sprite_list.draw(screen)
 		hud.draw(screen, dialog, usenicefont)
 
+		timertext = timerfont.render( "%.2f" % (pygame.time.get_ticks() / 1000), False, constants.WHITE)
+		screen.blit(timertext, (constants.SCREEN_WIDTH - 75, 16))
+
 
 		# ALL CODE TO DRAW SHOULD GO ABOVE THIS COMMENT
 
 		# Limit to 60 frames per second
-		clock.tick(60)
+		clock.tick(constants.TPS)
 
 		# Go ahead and update the screen with what we've drawn.
 		pygame.display.flip()

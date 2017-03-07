@@ -19,6 +19,8 @@ OBJECTIVE = PICKUP = (228, 4, 40)
 WATER = (0, 182, 233)
 LAVA = (241, 95, 34)
 
+TPS = 60
+
 OBJECTIVE_HELPER = (195, 195, 80)
 
 LIVES = 10
@@ -50,7 +52,7 @@ INSTRUCTIONS = [
 	'Pause: Esc',
 	'Pick up all the code in the correct order',
 	'and go to the end of the level.',
-	'You can kill the bad code by shooting at it',
+	'You can earn a heart by shooting bad code',
 	'',
 	'Press any key to start...',
 ]
