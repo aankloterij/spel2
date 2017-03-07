@@ -51,6 +51,10 @@ class Bullet(Entity):
 				# Een niet bs-code geraakt.
 				# Laten we bs-code een niet-integer index geven.
 				objectives_hit[0].kill()
+
+				# Marc wil een extra leven erbij als je code wegschiet
+				self.lives += 1
+
 				self.kill()
 				return
 
