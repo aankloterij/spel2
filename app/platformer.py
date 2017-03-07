@@ -178,7 +178,8 @@ def main():
 			if not player.can_finish_level():
 				# usenicefont = True
 				# dialog = 'Not done yet!'
-
+				player.rect.x -= player.change_x
+				player.change_x = 0
 				not_done.show()
 
 			else:

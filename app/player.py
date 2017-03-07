@@ -264,6 +264,9 @@ class Player(Entity):
 			dialog = Dialog()
 			dialog.set_text(constants.LAVA_WARNING)
 			dialog.onkeydown = lambda dialog, event: event.key != pygame.K_RETURN or dialog.close()
+
+			self.change_x = 0
+			
 			dialog.show()
 
 			self.has_seen_lava_warning = True
